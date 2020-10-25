@@ -1,1 +1,1 @@
-# splendorGame1
+# The Splendor Project
