@@ -2,4 +2,4 @@
 
 Welcome
 
-Refer to Documentation file for guide
+Project Board: https://trello.com/b/5OrnmJj2/spendorgame
