@@ -49,8 +49,39 @@ public class PlayerDeck {
                 "\n Total gems: " + printGems("total"));
     }
 
+    private String noblesToString(){
+        String output="";
+
+        for(int i=0;i<nobles.size();i++){
+            output+="Noble" + i +
+                "\nPrestige: " + nobles.get(i).getPrestige() + "\n";
+        }
+        return output;
+    }
+
+    private String developmentsToString(){
+        String output="";
+
+        for(int i=0;i<developments.size();i++){
+            output+="Dev " + i + developments.get(i).printStored() + "\n";
+        }
+
+        return output;
+    }
+
     public void printPersonalDeck(){
 
+        System.out.println("Player: " + name +
+                "\n Nobles:" +
+                "\n\n" + noblesToString() +
+
+                "\n Developments:" +
+                "\n\n" + developmentsToString() +
+
+                "\n Permanent Gems: " + printGems("permanent") +
+                "\n Gems on hand: " + printGems("private") +
+                "\n\n Total Gems: " + printGems("total")
+        );
     }
 
     public void addDevelopment(Card dev){

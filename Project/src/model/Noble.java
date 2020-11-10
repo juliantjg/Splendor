@@ -5,6 +5,42 @@ public class Noble {
     int prestige;
     int[] price;
 
+    public Noble(int no, int prestige, int[] price){
+        this.no=no;
+        this.prestige=prestige;
+        this.price=price;
+    }
+
+    public String printSell(){
+        return "Prestige: " + prestige +
+                "\nPrice: " + priceString() +
+                "\nNo: " + no;
+    }
+
+    private String priceString(){
+        String output="";
+        for(int i=0;i<5;i++){
+            if(price[i]>0){
+                if(i==0){
+                    output+=" W:" + price[i];
+                }
+                else if(i==1){
+                    output+=" R:" + price[i];
+                }
+                else if(i==2){
+                    output+=" G:" + price[i];
+                }
+                else if(i==3){
+                    output+=" O:" + price[i];
+                }
+                else{
+                    output+=" B:" + price[i];
+                }
+            }
+        }
+        return output;
+    }
+
     public int getNo() {
         return no;
     }
