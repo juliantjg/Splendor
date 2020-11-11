@@ -1,9 +1,9 @@
 package model;
 
 public class Noble {
-    int no;
-    int prestige;
-    int[] price;
+    private int no;
+    private int prestige;
+    private int[] price;
 
     public Noble(int no, int prestige, int[] price){
         this.no=no;

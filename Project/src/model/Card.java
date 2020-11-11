@@ -1,10 +1,17 @@
 package model;
 
 public class Card {
-    int cardNo;
-    int prestige;
-    int[] price;
-    char gemType;
+    private int cardNo;
+    private int prestige;
+    private int[] price;
+    private char gemType;
+
+    public Card(int cardNo, int prestige, int[] price, char gemType){
+        this.cardNo=cardNo;
+        this.prestige=prestige;
+        this.price=price;
+        this.gemType=gemType;
+    }
 
     public String printSell(){
         return "";
@@ -42,31 +49,16 @@ public class Card {
         return gemType;
     }
 
-    public void setGemType(char gemType) {
-        this.gemType = gemType;
-    }
-
     public int getCardNo() {
         return cardNo;
-    }
-
-    public void setCardNo(int cardNo) {
-        this.cardNo = cardNo;
     }
 
     public int getPrestige() {
         return prestige;
     }
 
-    public void setPrestige(int prestige) {
-        this.prestige = prestige;
-    }
-
     public int[] getPrice() {
         return price;
     }
 
-    public void setPrice(int[] price) {
-        this.price = price;
-    }
 }

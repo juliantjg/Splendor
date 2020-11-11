@@ -1,20 +1,25 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PlayerDeck {
-    ArrayList<Card> developments;
-    ArrayList<Noble> nobles;
-    int[] permanentGems;
-    int[] handGems;
-    int[] totalGems;
-    int prestige;
-    int gold;
-    String name;
+    private ArrayList<Card> developments;
+    private ArrayList<Noble> nobles;
+    private int[] permanentGems;
+    private int[] handGems;
+    private int[] totalGems;
+    private int prestige;
+    private int gold;
+    private String name;
 
     public PlayerDeck(String name){
+        this.name = name;
+        developments = new ArrayList<Card>();
+        nobles = new ArrayList<Noble>();
         handGems = new int[]{0,0,0,0,0};
         permanentGems = new int[]{0,0,0,0,0};
+        totalGems = new int[]{0,0,0,0,0};
         gold = 0;
         prestige = 0;
     }
@@ -22,19 +27,18 @@ public class PlayerDeck {
     /*
     Functionalities
      */
-
     private String printGems(String storageType){
         if(storageType.equals("permanent")){
-            return "W:" + permanentGems[0] + ",R:" + permanentGems[1] + ", G:" + permanentGems[2] +
+            return "W:" + permanentGems[0] + ", R:" + permanentGems[1] + ", G:" + permanentGems[2] +
                     ", O:" + permanentGems[3] + ", B:" + permanentGems[4];
         }
         else if(storageType.equals("private")){
-            return "W:" + handGems[0] + ",R:" + handGems[1] + ", G:" + handGems[2] +
+            return "W:" + handGems[0] + ", R:" + handGems[1] + ", G:" + handGems[2] +
                     ", O:" + handGems[3] + ", B:" + handGems[4] + ", E:" + gold;
         }
         else{
             int[] total = this.getTotalGems();
-            return "W:" + total[0] + ",R:" + total[1] + ", G:" + total[2] +
+            return "W:" + total[0] + ", R:" + total[1] + ", G:" + total[2] +
                     ", O:" + total[3] + ", B:" + total[4] + ", E:" + gold;
         }
     }
@@ -158,23 +162,12 @@ public class PlayerDeck {
         return permanentGems;
     }
 
-    public void setPermanentGems(int[] permanentGems) {
-        this.permanentGems = permanentGems;
-    }
-
     public int[] getHandGems() {
         return handGems;
-    }
-
-    public void setTotalGems(int[] totalGems) {
-        this.totalGems = totalGems;
     }
 
     public int getPrestige() {
         return prestige;
     }
 
-    public void setPrestige(int prestige) {
-        this.prestige = prestige;
-    }
 }

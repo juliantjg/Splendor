@@ -1,34 +1,22 @@
 package model;
 
 public class Player {
-    String name;
-    int playerNo;
-    int prestige;
-    PlayerDeck playerDeck;
-    int[] gems;
+    private String name;
+    private int playerNo;
+    private PlayerDeck playerDeck;
+    private int[] gems;
+
+    public Player(int no, String name){
+        this.playerNo = no;
+        this.name = name;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getPlayerNo() {
         return playerNo;
-    }
-
-    public void setPlayerNo(int playerNo) {
-        this.playerNo = playerNo;
-    }
-
-    public int getPrestige() {
-        return prestige;
-    }
-
-    public void setPrestige(int prestige) {
-        this.prestige = prestige;
     }
 
     public PlayerDeck getPlayerDeck() {
