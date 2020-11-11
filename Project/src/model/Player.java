@@ -4,7 +4,6 @@ public class Player {
     private String name;
     private int playerNo;
     private PlayerDeck playerDeck;
-    private int[] gems;
 
     public Player(int no, String name){
         this.playerNo = no;

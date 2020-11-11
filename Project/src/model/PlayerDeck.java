@@ -27,6 +27,39 @@ public class PlayerDeck {
     /*
     Functionalities
      */
+
+    public boolean checkNoble(Noble noble){
+        int[] noblePrice = noble.getPrice();
+
+        int checkSufficient=1;
+        for(int i=0;i<5;i++){
+            int diff = permanentGems[i] - noblePrice[i];
+            if(diff<0){
+                checkSufficient=-1;
+            }
+        }
+        if(checkSufficient==-1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public int checkDevelopment(Card developement){
+        int[] devPrice = developement.getPrice();
+        int[] totalGemsCounted = this.getTotalGems();
+
+        int checkSufficient=0;
+        for(int i=0;i<5;i++){
+            int diff = totalGemsCounted[i] - devPrice[i];
+            if(diff<0){
+                checkSufficient--;
+            }
+        }
+        return checkSufficient;
+    }
+
     private String printGems(String storageType){
         String retVal="";
         if(storageType.equals("permanent")){
@@ -98,13 +131,13 @@ public class PlayerDeck {
 
         System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
                 "\n  Nobles:" +
-                "\n " + noblesToString() +
+                "\n" + noblesToString() +
 
                 "\n  Developments:" +
-                "\n " + developmentsToString() +
+                "\n" + developmentsToString() +
 
                 "\n  Permanent Gems: " + printGems("permanent") +
-                "\n  Gems on hand: " + printGems("private") +
+                "\n  Gems on hand: " + printGems("hand") +
                 "\n  Total Gems: " + printGems("total")
         );
     }
@@ -116,19 +149,19 @@ public class PlayerDeck {
         //Check the gem type
         int gemType;
         if(dev.getGemType()=='W'){
-            gemType=1;
+            gemType=0;
         }
         else if(dev.getGemType()=='R'){
-            gemType=2;
+            gemType=1;
         }
         else if(dev.getGemType()=='G'){
-            gemType=3;
+            gemType=2;
         }
         else if(dev.getGemType()=='O'){
-            gemType=4;
+            gemType=3;
         }
         else{
-            gemType=5;
+            gemType=4;
         }
         //Increments permanent gems
         permanentGems[gemType]++;
