@@ -28,63 +28,84 @@ public class PlayerDeck {
     Functionalities
      */
     private String printGems(String storageType){
+        String retVal="";
         if(storageType.equals("permanent")){
-            return "W:" + permanentGems[0] + ", R:" + permanentGems[1] + ", G:" + permanentGems[2] +
-                    ", O:" + permanentGems[3] + ", B:" + permanentGems[4];
+            retVal = gemsToString(permanentGems);
         }
-        else if(storageType.equals("private")){
-            return "W:" + handGems[0] + ", R:" + handGems[1] + ", G:" + handGems[2] +
-                    ", O:" + handGems[3] + ", B:" + handGems[4] + ", E:" + gold;
+        else if(storageType.equals("hand")){
+            retVal = gemsToString(handGems);
         }
         else{
             int[] total = this.getTotalGems();
-            return "W:" + total[0] + ", R:" + total[1] + ", G:" + total[2] +
-                    ", O:" + total[3] + ", B:" + total[4] + ", E:" + gold;
+            retVal = gemsToString(total);
         }
+        return retVal;
+    }
+
+    private String gemsToString(int[] storageType){
+        String retVal="";
+        for(int i=0;i<5;i++){
+            if(storageType[i]>0){
+                if(i==0){
+                    retVal+=" W:" + storageType[i];
+                }
+                else if(i==1){
+                    retVal+=" R:" + storageType[i];
+                }
+                else if(i==2){
+                    retVal+=" G:" + storageType[i];
+                }
+                else if(i==3){
+                    retVal+=" O:" + storageType[i];
+                }
+                else{
+                    retVal+=" B:" + storageType[i];
+                }
+            }
+        }
+        return retVal;
     }
 
     public void printPublicDeck(){
-        System.out.println("Player: " + name +
-                "\n Num. of developments: " + developments.size() +
-                "\n Num of nobles: " + nobles.size() +
-                "\n Total prestige: " + prestige +
-                "\n Permanent gems: " + printGems("permanent") +
-                "\n Gems on hand: " + printGems("private") +
-                "\n Total gems: " + printGems("total"));
+        System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
+                "\n  Num. of developments: " + developments.size() +
+                "\n  Num. of nobles: " + nobles.size() +
+                "\n  Permanent gems: " + printGems("permanent") +
+                "\n  Gems on hand: " + printGems("hand") +
+                "\n  Total gems: " + printGems("total"));
     }
 
     private String noblesToString(){
         String output="";
 
         for(int i=0;i<nobles.size();i++){
-            output+="Noble" + i +
-                "\nPrestige: " + nobles.get(i).getPrestige() + "\n";
+            int count=i+1;
+            output+="     Noble " + count + " (Prestige: " + nobles.get(i).getPrestige() + ")\n";
         }
         return output;
     }
 
     private String developmentsToString(){
         String output="";
-
         for(int i=0;i<developments.size();i++){
-            output+="Dev " + i + developments.get(i).printStored() + "\n";
+            int count=i+1;
+            output+="     Dev " + count + " " + developments.get(i).printStored() + "\n";
         }
-
         return output;
     }
 
     public void printPersonalDeck(){
 
-        System.out.println("Player: " + name +
-                "\n Nobles:" +
-                "\n\n" + noblesToString() +
+        System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
+                "\n  Nobles:" +
+                "\n " + noblesToString() +
 
-                "\n Developments:" +
-                "\n\n" + developmentsToString() +
+                "\n  Developments:" +
+                "\n " + developmentsToString() +
 
-                "\n Permanent Gems: " + printGems("permanent") +
-                "\n Gems on hand: " + printGems("private") +
-                "\n\n Total Gems: " + printGems("total")
+                "\n  Permanent Gems: " + printGems("permanent") +
+                "\n  Gems on hand: " + printGems("private") +
+                "\n  Total Gems: " + printGems("total")
         );
     }
 
