@@ -25,7 +25,7 @@ public class TestPrintPlayerDeck {
     }
 
     private static void testPersonalFormat(){
-        
+
     }
 
     public static void main(String[] args){
