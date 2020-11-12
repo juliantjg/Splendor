@@ -21,7 +21,7 @@ public class TestPlayerDeck {
 
         //Initialize a development card
         int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(1, 3, priceInput, 'G');
+        Card inputCard = new Card(3, priceInput, 'G');
 
         //Initialize a noble
         int[] priceNoble = new int[]{1,1,0,0,0};
@@ -52,9 +52,9 @@ public class TestPlayerDeck {
 
         //Initialize 3 development cards
         int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(1, 3, priceInput, 'G');
-        Card inputCard2 = new Card(2, 3, priceInput, 'O');
-        Card inputCard3 = new Card(3, 3, priceInput, 'R');
+        Card inputCard = new Card(3, priceInput, 'G');
+        Card inputCard2 = new Card(3, priceInput, 'O');
+        Card inputCard3 = new Card(3, priceInput, 'R');
 
         //Initialize 3 nobles
         int[] priceNoble = new int[]{1,1,0,0,0};
@@ -92,8 +92,8 @@ public class TestPlayerDeck {
 
         //Initialize 2 developments to cause a noble visit
         int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(1, 3, priceInput, 'W');
-        Card inputCard2 = new Card(1, 3, priceInput, 'R');
+        Card inputCard = new Card(3, priceInput, 'W');
+        Card inputCard2 = new Card(3, priceInput, 'R');
 
         playerDeck1.addDevelopment(inputCard);
         playerDeck1.addDevelopment(inputCard2);
@@ -124,7 +124,7 @@ public class TestPlayerDeck {
 
         //Initialize a development
         int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(1, 3, priceInput, 'R');
+        Card inputCard = new Card(3, priceInput, 'R');
 
         //Initialize hand gems and put into playerDeck
         int[] handGems = new int[]{0,0,1,0,0};
@@ -136,7 +136,7 @@ public class TestPlayerDeck {
 
         //Initialize new development the player's trying to buy
         int[] priceInput2 = new int[]{0,2,1,0,0};
-        Card inputCard2 = new Card(2, 3, priceInput2, 'G');
+        Card inputCard2 = new Card(3, priceInput2, 'G');
 
         int retVal = playerDeck1.checkDevelopment(inputCard2);
 

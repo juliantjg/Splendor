@@ -1,13 +1,12 @@
 package model;
 
 public class Card {
-    private int cardNo;
+    private String cardNo;
     private int prestige;
     private int[] price;
     private char gemType;
 
-    public Card(int cardNo, int prestige, int[] price, char gemType){
-        this.cardNo=cardNo;
+    public Card(int prestige, int[] price, char gemType){
         this.prestige=prestige;
         this.price=price;
         this.gemType=gemType;
@@ -45,11 +44,15 @@ public class Card {
         return output;
     }
 
+    public void setCardNo(String no){
+        this.cardNo = no;
+    }
+
     public char getGemType() {
         return gemType;
     }
 
-    public int getCardNo() {
+    public String getCardNo() {
         return cardNo;
     }
 

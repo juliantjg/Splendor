@@ -46,8 +46,8 @@ public class PlayerDeck {
         }
     }
 
-    public int checkDevelopment(Card developement){
-        int[] devPrice = developement.getPrice();
+    public int checkDevelopment(Card development){
+        int[] devPrice = development.getPrice();
         int[] totalGemsCounted = this.getTotalGems();
 
         int checkSufficient=0;
