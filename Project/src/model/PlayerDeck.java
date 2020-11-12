@@ -54,7 +54,7 @@ public class PlayerDeck {
         for(int i=0;i<5;i++){
             int diff = totalGemsCounted[i] - devPrice[i];
             if(diff<0){
-                checkSufficient--;
+                checkSufficient+=diff;
             }
         }
         return checkSufficient;

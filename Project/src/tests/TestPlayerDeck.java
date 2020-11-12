@@ -122,7 +122,7 @@ public class TestPlayerDeck {
         player1 = new Player(4, "Jane");
         playerDeck1 = new PlayerDeck(player1.getName());
 
-        //Initialize 2 developments to cause a noble visit
+        //Initialize a development
         int[] priceInput = new int[]{0,2,1,0,0};
         Card inputCard = new Card(1, 3, priceInput, 'R');
 
@@ -134,6 +134,7 @@ public class TestPlayerDeck {
         //Give player a gold
         playerDeck1.addGold();
 
+        //Initialize new development the player's trying to buy
         int[] priceInput2 = new int[]{0,2,1,0,0};
         Card inputCard2 = new Card(2, 3, priceInput2, 'G');
 
