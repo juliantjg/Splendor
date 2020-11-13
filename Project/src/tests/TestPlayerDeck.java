@@ -160,6 +160,24 @@ public class TestPlayerDeck {
         }
     }
 
+    private static void testCheckGems(){
+        //Initialize player and playerDeck
+        player1 = new Player(5, "John");
+        playerDeck1 = new PlayerDeck(player1.getName());
+
+        //Initialize hand gems and put into playerDeck
+        playerDeck1.addHandGems(new int[]{2,2,2,2,1});
+
+        boolean retVal = playerDeck1.checkGems(new int[]{0,0,0,0,2});
+
+        if(retVal){
+            System.out.println("Can take gems");
+        }
+        else{
+            System.out.println("Can't have more than 10 hand gems");
+        }
+    }
+
     public static void main(String[] args){
         Scanner keyboard = new Scanner(System.in);
 
@@ -169,7 +187,8 @@ public class TestPlayerDeck {
                     "\n b. testAddingNoblesDevelopments()" +
                     "\n c. testCheckNoble()" +
                     "\n d. testCheckDevelopment()" +
-                    "\n e. exit" +
+                    "\n e. testCheckGems()" +
+                    "\n f. exit" +
                     "\n\n");
             String input = keyboard.nextLine();
             if(input.equals("a")){
@@ -183,6 +202,9 @@ public class TestPlayerDeck {
             }
             else if(input.equals("d")){
                 testCheckDevelopment();
+            }
+            else if(input.equals("e")){
+                testCheckGems();
             }
             else{
                 System.exit(0);

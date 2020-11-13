@@ -28,6 +28,27 @@ public class PlayerDeck {
     Functionalities
      */
 
+    public boolean checkGems(int[] gems){
+        int totalHandGems = this.getNumberOfGems(handGems);
+        int totalInputGems = this.getNumberOfGems(gems);
+
+        int newTotalHandGems = totalHandGems+totalInputGems;
+        if(newTotalHandGems>10){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    private int getNumberOfGems(int[] gemsInput){
+        int total=0;
+        for(int i=0;i<5;i++){
+            total+=gemsInput[i];
+        }
+        return total;
+    }
+
     public boolean checkNoble(Noble noble){
         int[] noblePrice = noble.getPrice();
 
