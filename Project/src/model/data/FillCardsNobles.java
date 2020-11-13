@@ -144,7 +144,7 @@ public class FillCardsNobles {
         return retVal;
     }
 
-    public ArrayList<Noble> getNobles(int numOfPlayers){
+    public ArrayList<Noble> getNobles(){
         ArrayList<Noble> retVal = new ArrayList<Noble>();
 
         retVal.add(new Noble(3, new int[]{0,4,0,0,4}));
