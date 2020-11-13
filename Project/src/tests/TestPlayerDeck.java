@@ -160,6 +160,10 @@ public class TestPlayerDeck {
         }
     }
 
+    /*
+    testCheckGems(): Test the checkGems method from PlayerDeck class. A player can't have more than
+    ten HAND gems.
+     */
     private static void testCheckGems(){
         //Initialize player and playerDeck
         player1 = new Player(5, "John");
