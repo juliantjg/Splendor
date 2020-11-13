@@ -44,15 +44,48 @@ public class GameBoard {
         refillDot1();
     }
 
+    public void takeGems(int[] inputGems){
+        for(int i=0;i<5;i++){
+            boardGems[i]-=inputGems[i];
+        }
+    }
+
+    public boolean checkGems(int[] inputGems){
+        boolean availabilityCheck=true;
+        boolean retVal=false;
+        int checkIndex=-1;
+        for(int i=0;i<5;i++){
+            //Check if there are any unavailable gems
+            if((boardGems[i] - inputGems[i]) < 0){
+                availabilityCheck=false;
+            }
+            //Check if input is taking 2 same gems
+            if(inputGems[i]==2){
+                checkIndex=i;
+            }
+        }
+        if(availabilityCheck==true) {
+            //If input is taking 2 same gems
+            if (checkIndex != -1) {
+                int gemsLeft = boardGems[checkIndex] - inputGems[checkIndex];
+                if (gemsLeft < 2) {
+                    retVal = false;
+                } else {
+                    retVal = true;
+                }
+            }
+            return retVal;
+        }
+        else{
+            return false;
+        }
+    }
+
     public void printGameBoard(){
         printNobles();
-
         System.out.println();
-
         printDevelopment();
-
         System.out.println();
-
         printGems();
     }
 
@@ -268,7 +301,4 @@ public class GameBoard {
             }
         }
     }
-
-
-
 }

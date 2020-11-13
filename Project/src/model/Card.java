@@ -12,10 +12,6 @@ public class Card {
         this.gemType=gemType;
     }
 
-    public String printSell(){
-        return "";
-    }
-
     public String printStored(){
         return "(Gem:" + gemType + ", Prestige:" + prestige + ")";
     }

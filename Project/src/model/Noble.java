@@ -10,12 +10,6 @@ public class Noble {
         this.price=price;
     }
 
-    public String printSell(){
-        return "Prestige: " + prestige +
-                "\nPrice: " + priceString() +
-                "\nNo: " + no;
-    }
-
     public String priceString(){
         String output="";
         for(int i=0;i<5;i++){
