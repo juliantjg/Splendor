@@ -147,6 +147,16 @@ public class FillCardsNobles {
     public ArrayList<Noble> getNobles(int numOfPlayers){
         ArrayList<Noble> retVal = new ArrayList<Noble>();
 
+        retVal.add(new Noble(3, new int[]{0,4,0,0,4}));
+        retVal.add(new Noble(3, new int[]{0,0,3,3,3}));
+        retVal.add(new Noble(3, new int[]{4,0,4,0,0}));
+        retVal.add(new Noble(3, new int[]{0,0,4,4,0}));
+        retVal.add(new Noble(3, new int[]{3,3,0,0,3}));
+        retVal.add(new Noble(3, new int[]{0,3,0,3,3}));
+        retVal.add(new Noble(3, new int[]{4,4,0,0,0}));
+        retVal.add(new Noble(3, new int[]{0,0,4,4,0}));
+        retVal.add(new Noble(3, new int[]{4,0,0,0,4}));
+
         return retVal;
     }
 }

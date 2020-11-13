@@ -1,12 +1,11 @@
 package model;
 
 public class Noble {
-    private int no;
+    private String no;
     private int prestige;
     private int[] price;
 
-    public Noble(int no, int prestige, int[] price){
-        this.no=no;
+    public Noble(int prestige, int[] price){
         this.prestige=prestige;
         this.price=price;
     }
@@ -41,11 +40,11 @@ public class Noble {
         return output;
     }
 
-    public int getNo() {
+    public String getNo() {
         return no;
     }
 
-    public void setNo(int no) {
+    public void setNo(String no) {
         this.no = no;
     }
 

@@ -25,7 +25,7 @@ public class TestPlayerDeck {
 
         //Initialize a noble
         int[] priceNoble = new int[]{1,1,0,0,0};
-        Noble inputNoble = new Noble(1, 5, priceNoble);
+        Noble inputNoble = new Noble(5, priceNoble);
 
         //Put development card and noble into playerDeck
         playerDeck1.addDevelopment(inputCard);
@@ -58,9 +58,9 @@ public class TestPlayerDeck {
 
         //Initialize 3 nobles
         int[] priceNoble = new int[]{1,1,0,0,0};
-        Noble inputNoble = new Noble(1, 2, priceNoble);
-        Noble inputNoble2 = new Noble(2, 1, priceNoble);
-        Noble inputNoble3 = new Noble(3, 3, priceNoble);
+        Noble inputNoble = new Noble( 2, priceNoble);
+        Noble inputNoble2 = new Noble( 1, priceNoble);
+        Noble inputNoble3 = new Noble( 3, priceNoble);
 
         //Put development card and noble into playerDeck
         playerDeck1.addDevelopment(inputCard);
@@ -88,7 +88,7 @@ public class TestPlayerDeck {
 
         //Initialize a noble
         int[] priceNoble = new int[]{1,1,0,0,0};
-        Noble inputNoble = new Noble(1, 2, priceNoble);
+        Noble inputNoble = new Noble( 2, priceNoble);
 
         //Initialize 2 developments to cause a noble visit
         int[] priceInput = new int[]{0,2,1,0,0};
