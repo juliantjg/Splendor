@@ -13,10 +13,15 @@ public class GameBoard {
     private int[] boardGems;
     private Noble[] nobles;
     private int gold;
+    private int numOfPlayers;
+    private int numOfNobles;
 
     public GameBoard(int numOfPlayers){
-        noblesDeck = datas.getNobles();
+        this.numOfNobles = numOfPlayers+1;
+        this.numOfPlayers = numOfPlayers;
         datas = new FillCardsNobles();
+        noblesDeck = datas.getNobles();
+
         if(numOfPlayers==2){
             boardGems = new int[]{4,4,4,4,4};
             nobles = new Noble[3];
@@ -30,13 +35,58 @@ public class GameBoard {
         dot3_developments = datas.getDot3Cards();
         dot2_developments = datas.getDot2Cards();
         dot1_developments = datas.getDot1Cards();
+        dot3 = new Card[4];
+        dot2 = new Card[4];
+        dot1 = new Card[4];
 
         refillDot3();
         refillDot2();
         refillDot1();
     }
 
+    public void printGameBoard(){
+        printNobles();
 
+    }
+
+    private void printNobles() {
+        System.out.println("N O B L E S");
+        if(numOfNobles>0) {
+            printNobleLines();
+
+            System.out.println();
+            for (int i = 0; i < numOfNobles; i++) {
+                System.out.format("%-25s", "| Prestige: " + nobles[i].getPrestige());
+            }
+            System.out.print("|");
+            System.out.println();
+            for (int i = 0; i < numOfNobles; i++) {
+                System.out.format("%-25s", "| Price: " + nobles[i].priceString());
+            }
+            System.out.print("|");
+            System.out.println();
+            for (int i = 0; i < numOfNobles; i++) {
+                System.out.format("%-25s", "| No: " + nobles[i].getNo());
+            }
+            System.out.print("|");
+            System.out.println();
+
+            printNobleLines();
+        }
+        else{
+            System.out.println("--No more nobles left--");
+        }
+    }
+
+    private void printNobleLines(){
+        System.out.print("+");
+        for(int j=0;j<numOfNobles;j++) {
+            for (int i = 0; i < 24; i++) {
+                System.out.print("-");
+            }
+            System.out.print("+");
+        }
+    }
 
     private void refillDot3(){
         Random rand = new Random();
@@ -84,6 +134,8 @@ public class GameBoard {
                 int randomIndex = rand.nextInt(noblesDeck.size());
                 nobles[i] = noblesDeck.get(randomIndex);
                 noblesDeck.remove(randomIndex);
+                String newNo = "n" + i;
+                nobles[i].setNo(newNo);
             }
         }
         else{

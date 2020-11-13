@@ -16,7 +16,7 @@ public class Noble {
                 "\nNo: " + no;
     }
 
-    private String priceString(){
+    public String priceString(){
         String output="";
         for(int i=0;i<5;i++){
             if(price[i]>0){
