@@ -47,6 +47,133 @@ public class GameBoard {
     public void printGameBoard(){
         printNobles();
 
+        System.out.println();
+
+        printDevelopment();
+
+        System.out.println();
+
+        printGems();
+    }
+
+    private void printGems(){
+        System.out.println("G E M S");
+
+        printGemLines();
+
+        System.out.format("%-6s%-6s%-6s%-6s%-6s%-6s", "|  W", "|  R", "|  G", "|  O", "|  B", "|  E");
+        System.out.println("|");
+        System.out.format("%-6s%-6s%-6s%-6s%-6s%-6s", "|  " + boardGems[0], "|  " + boardGems[1], "|  " +
+                boardGems[2], "|  " + boardGems[3], "|  " + boardGems[4], "|  " + gold);
+        System.out.println("|");
+
+        printGemLines();
+    }
+
+    private void printGemLines(){
+        System.out.print("+");
+        for(int j=0;j<6;j++) {
+            for (int i = 0; i < 5; i++) {
+                System.out.print("-");
+            }
+            System.out.print("+");
+        }
+        System.out.println();
+    }
+
+    private void printDevelopment(){
+        System.out.println("D E V E L O P M E N T S");
+        printDevelopmentLines();
+        print3Dots();
+        printDevelopmentLines();
+        print2Dots();
+        printDevelopmentLines();
+        print1Dots();
+        printDevelopmentLines();
+    }
+
+    private void print3Dots(){
+        System.out.format("%-20s", "| ");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| Prestige: " + dot3[i].getPrestige());
+        }
+        System.out.print("|");
+        System.out.println();
+
+        System.out.format("%-20s", "|  III DOTS");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| Price: " + dot3[i].priceString());
+        }
+        System.out.print("|");
+        System.out.println();
+
+        System.out.format("%-20s", "|");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| No: " + dot3[i].getCardNo());
+        }
+        System.out.print("|");
+        System.out.println();
+    }
+
+    private void print2Dots(){
+        System.out.format("%-20s", "| ");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| Prestige: " + dot2[i].getPrestige());
+        }
+        System.out.print("|");
+        System.out.println();
+
+        System.out.format("%-20s", "|  II DOTS");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| Price: " + dot2[i].priceString());
+        }
+        System.out.print("|");
+        System.out.println();
+
+        System.out.format("%-20s", "|");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| No: " + dot2[i].getCardNo());
+        }
+        System.out.print("|");
+        System.out.println();
+    }
+
+    private void print1Dots(){
+        System.out.format("%-20s", "| ");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| Prestige: " + dot1[i].getPrestige());
+        }
+        System.out.print("|");
+        System.out.println();
+
+        System.out.format("%-20s", "|  I DOTS");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| Price: " + dot1[i].priceString());
+        }
+        System.out.print("|");
+        System.out.println();
+
+        System.out.format("%-20s", "|");
+        for (int i = 0; i < 4; i++) {
+            System.out.format("%-30s", "| No: " + dot1[i].getCardNo());
+        }
+        System.out.print("|");
+        System.out.println();
+    }
+
+    private void printDevelopmentLines(){
+        System.out.print("+");
+        for (int i = 0; i < 19; i++) {
+            System.out.print("-");
+        }
+        System.out.print("+");
+        for(int j=0;j<4;j++) {
+            for (int i = 0; i < 29; i++) {
+                System.out.print("-");
+            }
+            System.out.print("+");
+        }
+        System.out.println();
     }
 
     private void printNobles() {
@@ -54,7 +181,6 @@ public class GameBoard {
         if(numOfNobles>0) {
             printNobleLines();
 
-            System.out.println();
             for (int i = 0; i < numOfNobles; i++) {
                 System.out.format("%-25s", "| Prestige: " + nobles[i].getPrestige());
             }
@@ -62,11 +188,6 @@ public class GameBoard {
             System.out.println();
             for (int i = 0; i < numOfNobles; i++) {
                 System.out.format("%-25s", "| Price: " + nobles[i].priceString());
-            }
-            System.out.print("|");
-            System.out.println();
-            for (int i = 0; i < numOfNobles; i++) {
-                System.out.format("%-25s", "| No: " + nobles[i].getNo());
             }
             System.out.print("|");
             System.out.println();
@@ -86,6 +207,7 @@ public class GameBoard {
             }
             System.out.print("+");
         }
+        System.out.println();
     }
 
     private void refillDot3(){
