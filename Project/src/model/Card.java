@@ -16,6 +16,10 @@ public class Card {
         return "(Gem:" + gemType + ", Prestige:" + prestige + ")";
     }
 
+    public String printWithPrice() {
+        return printStored() + "    -> PRICE:" + priceString() + "<-";
+    }
+
     public String priceString(){
         String output="";
         for(int i=0;i<5;i++){

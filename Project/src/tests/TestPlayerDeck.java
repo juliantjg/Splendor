@@ -30,6 +30,7 @@ public class TestPlayerDeck {
         //Put development card and noble into playerDeck
         playerDeck1.addDevelopment(inputCard);
         playerDeck1.addNoble(inputNoble);
+        playerDeck1.reserve(inputCard);
 
         //Initialize hand gems and put into playerDeck
         int[] handGems = new int[]{1,0,2,3,0};

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class PlayerDeck {
     private ArrayList<Card> developments;
+    private ArrayList<Card> reserves;
     private ArrayList<Noble> nobles;
     private int[] permanentGems;
     private int[] handGems;
@@ -16,6 +17,7 @@ public class PlayerDeck {
     public PlayerDeck(String name){
         this.name = name;
         developments = new ArrayList<Card>();
+        reserves = new ArrayList<Card>();
         nobles = new ArrayList<Noble>();
         handGems = new int[]{0,0,0,0,0};
         permanentGems = new int[]{0,0,0,0,0};
@@ -64,6 +66,19 @@ public class PlayerDeck {
         }
         else{
             return true;
+        }
+    }
+
+    public void reserve(Card inputCard){
+        reserves.add(inputCard);
+    }
+
+    public boolean checkReserve(){
+        if(reserves.size()<4 && gold>0){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
@@ -126,7 +141,8 @@ public class PlayerDeck {
                 "\n  Num. of nobles: " + nobles.size() +
                 "\n  Permanent gems: " + printGems("permanent") +
                 "\n  Gems on hand: " + printGems("hand") +
-                "\n  Total gems: " + printGems("total"));
+                "\n  Total gems: " + printGems("total") +
+                "\n\n  -> Player " + name + " is reserving " + reserves.size() + " card(s) <-");
     }
 
     private String noblesToString(){
@@ -148,6 +164,37 @@ public class PlayerDeck {
         return output;
     }
 
+    public void buyReserve(String input){
+        int inputNum = Integer.parseInt(input) - 1;
+        addDevelopment(reserves.get(inputNum));
+        reserves.remove(inputNum);
+    }
+
+    public boolean checkBuyReserve(String input){
+        int inputNum = Integer.parseInt(input) - 1;
+
+        if(inputNum<reserves.size()){
+            if(checkDevelopment(reserves.get(inputNum))>-1){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    private String reservesToString(){
+        String output="";
+        for(int i=0;i<reserves.size();i++){
+            int count=i+1;
+            output+="     Res " + count + " " + reserves.get(i).printWithPrice() + "\n";
+        }
+        return output;
+    }
+
     public void printPersonalDeck(){
 
         System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
@@ -156,6 +203,9 @@ public class PlayerDeck {
 
                 "\n  Developments:" +
                 "\n" + developmentsToString() +
+
+                "\n  Reserves:" +
+                "\n" + reservesToString() +
 
                 "\n  Permanent Gems: " + printGems("permanent") +
                 "\n  Gems on hand: " + printGems("hand") +
@@ -244,5 +294,4 @@ public class PlayerDeck {
     public int getPrestige() {
         return prestige;
     }
-
 }
