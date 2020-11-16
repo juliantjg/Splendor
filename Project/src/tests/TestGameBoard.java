@@ -9,6 +9,7 @@ public class TestGameBoard {
         gameBoard = new GameBoard(2);
 
         gameBoard.printGameBoard();
+
     }
 
     public static void main(String[] args){

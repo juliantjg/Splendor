@@ -7,9 +7,9 @@ import java.util.Random;
 
 public class GameBoard {
     private ArrayList<Card> dot3_developments, dot2_developments, dot1_developments;
+    private ArrayList<Noble> noblesDeck;
     private Card[] dot3, dot2, dot1;
     private FillCardsNobles datas;
-    private ArrayList<Noble> noblesDeck;
     private int[] boardGems;
     private Noble[] nobles;
     private int gold;
@@ -39,9 +39,45 @@ public class GameBoard {
         dot2 = new Card[4];
         dot1 = new Card[4];
 
-        refillDot3();
-        refillDot2();
-        refillDot1();
+        refillDot("a");
+        refillDot("b");
+        refillDot("c");
+    }
+
+    private Card[] getCardDeck(String dot){
+        if(dot.equals("a")){
+            return dot3;
+        }
+        else if(dot.equals("b")){
+            return dot2;
+        }
+        else{
+            return dot1;
+        }
+    }
+
+    public Card takeDevelopment(String inputDevCode){
+        String code = inputDevCode.substring(0,1);
+        int codeNumber = Integer.parseInt(inputDevCode.substring(1,2));
+        Card retVal = getCardDeck(code)[codeNumber];
+        getCardDeck(code)[codeNumber] = null;
+        refillDot(code);
+        return retVal;
+    }
+
+    public boolean checkDevelopment(String inputDevCode){
+        String code = inputDevCode.substring(0,1);
+        String codeNumber = inputDevCode.substring(1,2);
+        if(code.equals("a") || code.equals("b") || code.equals("c")) {
+            if (codeNumber.equals("0") || codeNumber.equals("1") || codeNumber.equals("2") || codeNumber.equals("3")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
     }
 
     public void takeGems(int[] inputGems){
@@ -117,78 +153,50 @@ public class GameBoard {
     private void printDevelopment(){
         System.out.println("D E V E L O P M E N T S");
         printDevelopmentLines();
-        print3Dots();
+        printDevelopmentCards("a");
         printDevelopmentLines();
-        print2Dots();
+        printDevelopmentCards("b");
         printDevelopmentLines();
-        print1Dots();
+        printDevelopmentCards("c");
         printDevelopmentLines();
     }
 
-    private void print3Dots(){
-        System.out.format("%-20s", "| ");
+    private void printDevelopmentCards(String dot){
+        String printDots="";
+        if(dot.equals("a")){
+            printDots = "III DOT";
+        }
+        else if(dot.equals("b")){
+            printDots = "II DOT";
+        }
+        else{
+            printDots = "I DOT";
+        }
+
+        System.out.format("%-10s", "| ");
         for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| Prestige: " + dot3[i].getPrestige());
+            System.out.format("%-30s", "| GEM: " + getCardDeck(dot)[i].getGemType());
         }
         System.out.print("|");
         System.out.println();
 
-        System.out.format("%-20s", "|  III DOTS");
+        System.out.format("%-10s", "| " + printDots);
         for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| Price: " + dot3[i].priceString());
+            System.out.format("%-30s", "| Prestige: " + getCardDeck(dot)[i].getPrestige());
         }
         System.out.print("|");
         System.out.println();
 
-        System.out.format("%-20s", "|");
+        System.out.format("%-10s", "| ");
         for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| No: " + dot3[i].getCardNo());
-        }
-        System.out.print("|");
-        System.out.println();
-    }
-
-    private void print2Dots(){
-        System.out.format("%-20s", "| ");
-        for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| Prestige: " + dot2[i].getPrestige());
+            System.out.format("%-30s", "| Price: " + getCardDeck(dot)[i].priceString());
         }
         System.out.print("|");
         System.out.println();
 
-        System.out.format("%-20s", "|  II DOTS");
+        System.out.format("%-10s", "|");
         for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| Price: " + dot2[i].priceString());
-        }
-        System.out.print("|");
-        System.out.println();
-
-        System.out.format("%-20s", "|");
-        for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| No: " + dot2[i].getCardNo());
-        }
-        System.out.print("|");
-        System.out.println();
-    }
-
-    private void print1Dots(){
-        System.out.format("%-20s", "| ");
-        for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| Prestige: " + dot1[i].getPrestige());
-        }
-        System.out.print("|");
-        System.out.println();
-
-        System.out.format("%-20s", "|  I DOTS");
-        for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| Price: " + dot1[i].priceString());
-        }
-        System.out.print("|");
-        System.out.println();
-
-        System.out.format("%-20s", "|");
-        for (int i = 0; i < 4; i++) {
-            System.out.format("%-30s", "| No: " + dot1[i].getCardNo());
+            System.out.format("%-30s", "| No: " + getCardDeck(dot)[i].getCardNo());
         }
         System.out.print("|");
         System.out.println();
@@ -196,7 +204,7 @@ public class GameBoard {
 
     private void printDevelopmentLines(){
         System.out.print("+");
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 9; i++) {
             System.out.print("-");
         }
         System.out.print("+");
@@ -243,41 +251,28 @@ public class GameBoard {
         System.out.println();
     }
 
-    private void refillDot3(){
-        Random rand = new Random();
-        for(int i=0;i<4;i++){
-            if(dot3[i]==null){
-                int randomIndex = rand.nextInt(dot3_developments.size());
-                dot3[i] = dot3_developments.get(randomIndex);
-                dot3_developments.remove(randomIndex);
-                String newCardNo = "a" + i;
-                dot3[i].setCardNo(newCardNo);
-            }
+    private ArrayList<Card> getDevDeck(String code){
+        if(code.equals("a")){
+            return dot3_developments;
+        }
+        else if(code.equals("b")){
+            return dot2_developments;
+        }
+        else{
+            return dot1_developments;
         }
     }
 
-    private void refillDot2(){
+    private void refillDot(String dot){
         Random rand = new Random();
-        for(int i=0;i<4;i++){
-            if(dot2[i]==null){
-                int randomIndex = rand.nextInt(dot2_developments.size());
-                dot2[i] = dot2_developments.get(randomIndex);
-                dot2_developments.remove(randomIndex);
-                String newCardNo = "b" + i;
-                dot2[i].setCardNo(newCardNo);
-            }
-        }
-    }
 
-    private void refillDot1(){
-        Random rand = new Random();
         for(int i=0;i<4;i++){
-            if(dot1[i]==null){
-                int randomIndex = rand.nextInt(dot1_developments.size());
-                dot1[i] = dot1_developments.get(randomIndex);
-                dot1_developments.remove(randomIndex);
-                String newCardNo = "c" + i;
-                dot1[i].setCardNo(newCardNo);
+            if(getCardDeck(dot)[i]==null){
+                int randomIndex = rand.nextInt(getDevDeck(dot).size());
+                getCardDeck(dot)[i] = getDevDeck(dot).get(randomIndex);
+                getDevDeck(dot).remove(randomIndex);
+                String newCardNo = dot + i;
+                getCardDeck(dot)[i].setCardNo(newCardNo);
             }
         }
     }
