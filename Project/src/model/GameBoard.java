@@ -113,43 +113,50 @@ public class GameBoard {
 
     public int checkInputTakeGems(String input){
         if(input.indexOf('E')==-1) {
-            if(checkGemChars(input, input.length())) {
-                if (input.length() == 5 && input.substring(1, 2).equals(" ") && input.substring(3, 4).equals(" ")) {
-                    if (!input.substring(0, 1).equals(input.substring(2, 3)) && !input.substring(2, 3).equals(input.substring(4, 5)) &&
-                            !input.substring(0, 1).equals(input.substring(4, 5))) {
-                        if(checkGems(convertRawInputToArray(input))){
-                            //200 means true
-                            return 200;
-                        }
-                        else{
-                            //Not enough gems to take
+            if(input.length()==3 || input.length()==5) {
+                if (checkGemChars(input, input.length())) {
+                    if (input.length() == 5 && input.substring(1, 2).equals(" ") && input.substring(3, 4).equals(" ")) {
+                        if (!input.substring(0, 1).equals(input.substring(2, 3)) && !input.substring(2, 3).equals(input.substring(4, 5)) &&
+                                !input.substring(0, 1).equals(input.substring(4, 5))) {
+                            if (checkGems(convertRawInputToArray(input))) {
+                                //200 means true
+                                return 200;
+                            } else {
+                                //Not enough gems to take
+                                return 7;
+                            }
+                        } else {
+                            //Can't take 2 same gems if taking 3 gems
                             return 6;
                         }
-                    } else {
-                        //Can't take 2 same gems if taking 3 gems
-                        return 5;
-                    }
-                } else if (input.length() == 3 && input.substring(1, 2).equals(" ")) {
-                    if (input.substring(0, 1).equals(input.substring(2, 3))) {
-                        if(checkGems(convertRawInputToArray(input))){
-                            //200 means true
-                            return 200;
+                    } else if (input.length() == 3 && input.substring(1, 2).equals(" ")) {
+                        if (input.substring(0, 1).equals(input.substring(2, 3))) {
+                            if (checkGems(convertRawInputToArray(input))) {
+                                //200 means true
+                                return 200;
+                            } else {
+                                //Not enough gems to take / taking 2 gems from a tile with <4 gems
+                                return 75;
+                            }
+                        } else {
+                            //Must take 2 same gems if taking 2 gems
+                            return 5;
                         }
-                        else{
-                            //Not enough gems to take
-                            return 6;
-                        }
                     } else {
-                        //Must take 2 same gems if taking 2 gems
+                        //Input format invalid (spaces problem)
                         return 4;
                     }
                 } else {
-                    //Input format invalid (spaces problem)
+                    //Invalid gem code (must be W,R,G,O,B)
                     return 3;
                 }
             }
             else{
-                //Invalid gem code (must be W,R,G,O,B)
+                if(input.length()==1){
+                    //Can't take just 1 gem
+                    return 22;
+                }
+                //Invalid format
                 return 2;
             }
         }
@@ -157,27 +164,21 @@ public class GameBoard {
             //Can't take gold
             return 1;
         }
-
     }
 
     private boolean checkGemChars(String gemChar, int length){
-        if(checkCharValidity(gemChar.substring(0,1)) && checkCharValidity(gemChar.substring(2,3))){
-            if(length==3){
-                return true;
-            }
-            else if(length==5){
-                if(checkCharValidity(gemChar.substring(4,5))){
+        if (checkCharValidity(gemChar.substring(0, 1)) && checkCharValidity(gemChar.substring(2, 3))) {
+            if (length == 5) {
+                if (checkCharValidity(gemChar.substring(4, 5))) {
                     return true;
-                }
-                else{
+                } else {
                     return false;
                 }
             }
             else{
-                return false;
+                return true;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -214,8 +215,11 @@ public class GameBoard {
                 } else {
                     retVal = true;
                 }
+                return retVal;
             }
-            return retVal;
+            else{
+                return true;
+            }
         }
         else{
             return false;
