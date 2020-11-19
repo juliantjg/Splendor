@@ -30,7 +30,7 @@ public class TestPlayerDeck {
         //Put development card and noble into playerDeck
         playerDeck1.addDevelopment(inputCard);
         playerDeck1.addNoble(inputNoble);
-        playerDeck1.reserve(inputCard);
+        playerDeck1.reserve(inputCard,2);
 
         //Initialize hand gems and put into playerDeck
         int[] handGems = new int[]{1,0,2,3,0};
@@ -123,26 +123,25 @@ public class TestPlayerDeck {
         player1 = new Player(4, "Jane");
         playerDeck1 = new PlayerDeck(player1.getName());
 
-        //Initialize a development
-        int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(3, priceInput, 'R');
-
         //Initialize hand gems and put into playerDeck
-        int[] handGems = new int[]{0,0,1,0,0};
+        int[] handGems = new int[]{0,1,1,0,1};
         playerDeck1.addHandGems(handGems);
-        playerDeck1.addDevelopment(inputCard);
 
         //Give player a gold
         playerDeck1.addGold();
 
+        //Gives player a permanent gem
+        playerDeck1.setPermanentGems(new int[]{0,1,0,0,0});
+
         //Initialize new development the player's trying to buy
-        int[] priceInput2 = new int[]{0,2,1,0,0};
+        int[] priceInput2 = new int[]{0,3,1,0,0};
         Card inputCard2 = new Card(3, priceInput2, 'G');
 
         int retVal = playerDeck1.checkDevelopment(inputCard2);
-
+        System.out.println(retVal);
         if(retVal>=0){
             System.out.println("Sufficient gems");
+            playerDeck1.printPersonalDeck();
         }
         else if (retVal==-1 && playerDeck1.getGold()>0){
             System.out.println("You need 1 more gem. Use gold? (Y/N)");
@@ -151,6 +150,7 @@ public class TestPlayerDeck {
                 playerDeck1.addDevelopment(inputCard2);
                 playerDeck1.takeGold();
                 System.out.println("Purchase successful");
+                playerDeck1.printPersonalDeck();
             }
             else{
                 System.out.println("Purchase failed");
@@ -158,6 +158,12 @@ public class TestPlayerDeck {
         }
         else{
             System.out.println("Insufficient gems");
+        }
+
+        int[] test = playerDeck1.getHandGems();
+
+        for(int i=0;i<5;i++){
+            System.out.println(test[i]);
         }
     }
 
@@ -183,6 +189,87 @@ public class TestPlayerDeck {
         }
     }
 
+    private static void testReserveDevelopment(){
+        //Initialize player and playerDeck
+        player1 = new Player(6, "Juno");
+        playerDeck1 = new PlayerDeck(player1.getName());
+
+        int[] priceInput2 = new int[]{0,2,1,0,0};
+        Card inputCard2 = new Card(3, priceInput2, 'G');
+
+        int retVal = playerDeck1.checkReserve();
+        if(retVal==2){
+            playerDeck1.reserve(inputCard2,1);
+            playerDeck1.printPublicDeck();
+            playerDeck1.printPersonalDeck();
+        }
+        else{
+            System.out.println("Can't have more than 3 reserves!");
+        }
+    }
+
+    private static void testMoreThan3Reserves(){
+        //Initialize player and playerDeck
+        player1 = new Player(6, "Juno");
+        playerDeck1 = new PlayerDeck(player1.getName());
+
+        int[] priceInput2 = new int[]{0,2,1,0,0};
+        Card inputCard2 = new Card(3, priceInput2, 'G');
+        Card inputCard3 = new Card(2, priceInput2, 'W');
+        Card inputCard4 = new Card(1, priceInput2, 'R');
+
+        playerDeck1.reserve(inputCard2,1);
+        playerDeck1.reserve(inputCard3,1);
+        playerDeck1.reserve(inputCard4,0);
+
+        int retVal = playerDeck1.checkReserve();
+
+        if(retVal==1){
+            System.out.println("Can't have more than 3 reserves!");
+        }
+        else{
+            System.out.println("True");
+        }
+    }
+
+    public static void testCheckBuyReserve(){
+        //Initialize player and playerDeck
+        player1 = new Player(7, "Bob Dylan");
+        playerDeck1 = new PlayerDeck(player1.getName());
+
+        int[] priceInput2 = new int[]{2,2,1,0,0};
+        Card inputCard2 = new Card(3, priceInput2, 'G');
+
+        playerDeck1.reserve(inputCard2,3);
+
+        playerDeck1.addHandGems(new int[]{2,2,0,0,0});
+
+        int checkBuyReserveRetVal = playerDeck1.checkBuyReserve("1");
+        if(checkBuyReserveRetVal > -1){
+            System.out.println("Successful");
+            playerDeck1.buyReserve("1");
+        }
+        else if(checkBuyReserveRetVal==-1 && playerDeck1.getGold()>0){
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("You need 1 more gem. Use 1 Gold(E) gem? (Y/N)");
+            String output = keyboard.nextLine();
+            if(output.equals("Y")){
+                System.out.println("Successful");
+                playerDeck1.takeGold();
+                playerDeck1.buyReserve("1");
+            }
+            else{
+                System.out.println("Cancel payment");
+            }
+        }
+        else{
+            System.out.println("Insufficient gems");
+        }
+
+        playerDeck1.printPublicDeck();
+        playerDeck1.printPersonalDeck();
+    }
+
     public static void main(String[] args){
         Scanner keyboard = new Scanner(System.in);
 
@@ -193,7 +280,10 @@ public class TestPlayerDeck {
                     "\n c. testCheckNoble()" +
                     "\n d. testCheckDevelopment()" +
                     "\n e. testCheckGems()" +
-                    "\n f. exit" +
+                    "\n f. testReserveDevelopment()" +
+                    "\n g. testMoreThan3Reserves()" +
+                    "\n h. testCheckBuyReserve()" +
+                    "\n i. exit" +
                     "\n\n");
             String input = keyboard.nextLine();
             if(input.equals("a")){
@@ -210,6 +300,15 @@ public class TestPlayerDeck {
             }
             else if(input.equals("e")){
                 testCheckGems();
+            }
+            else if(input.equals("f")){
+                testReserveDevelopment();
+            }
+            else if(input.equals("g")){
+                testMoreThan3Reserves();
+            }
+            else if(input.equals("h")){
+                testCheckBuyReserve();
             }
             else{
                 System.exit(0);

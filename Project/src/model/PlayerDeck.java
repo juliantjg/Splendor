@@ -69,16 +69,21 @@ public class PlayerDeck {
         }
     }
 
-    public void reserve(Card inputCard){
+    public void reserve(Card inputCard, int gold){
         reserves.add(inputCard);
+        if(gold>0){
+            this.gold++;
+        }
     }
 
-    public boolean checkReserve(){
-        if(reserves.size()<4 && gold>0){
-            return true;
+    public int checkReserve(){
+        if(reserves.size()>2){
+            //Can't have more than 3 reserves
+            return 1;
         }
         else{
-            return false;
+            //True
+            return 2;
         }
     }
 
@@ -97,18 +102,16 @@ public class PlayerDeck {
     }
 
     private String printGems(String storageType){
-        String retVal="";
         if(storageType.equals("permanent")){
-            retVal = gemsToString(permanentGems);
+            return gemsToString(permanentGems);
         }
         else if(storageType.equals("hand")){
-            retVal = gemsToString(handGems);
+            return gemsToString(handGems);
         }
         else{
             int[] total = this.getTotalGems();
-            retVal = gemsToString(total);
+            return gemsToString(total);
         }
-        return retVal;
     }
 
     private String gemsToString(int[] storageType){
@@ -136,13 +139,19 @@ public class PlayerDeck {
     }
 
     public void printPublicDeck(){
+        String printGold = "";
+        if(this.gold>0){
+            printGold = "\n  GOLD (E): " + this.gold;
+        }
         System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
                 "\n  Num. of developments: " + developments.size() +
                 "\n  Num. of nobles: " + nobles.size() +
                 "\n  Permanent gems: " + printGems("permanent") +
                 "\n  Gems on hand: " + printGems("hand") +
                 "\n  Total gems: " + printGems("total") +
-                "\n\n  -> Player " + name + " is reserving " + reserves.size() + " card(s) <-");
+                printGold +
+                "\n\n  -> Player " + name + " is reserving " + reserves.size() + " card(s) <-"
+        );
     }
 
     private String noblesToString(){
@@ -170,19 +179,16 @@ public class PlayerDeck {
         reserves.remove(inputNum);
     }
 
-    public boolean checkBuyReserve(String input){
+    public int checkBuyReserve(String input){
         int inputNum = Integer.parseInt(input) - 1;
 
         if(inputNum<reserves.size()){
-            if(checkDevelopment(reserves.get(inputNum))>-1){
-                return true;
-            }
-            else{
-                return false;
-            }
+            //Return checkDevelopment() to enable using gold
+            return checkDevelopment(reserves.get(inputNum));
         }
         else{
-            return false;
+            //False
+            return -3;
         }
     }
 
@@ -196,6 +202,10 @@ public class PlayerDeck {
     }
 
     public void printPersonalDeck(){
+        String printGold = "";
+        if(this.gold>0){
+            printGold = "\n  GOLD (E): " + this.gold;
+        }
 
         System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
                 "\n  Nobles:" +
@@ -209,14 +219,14 @@ public class PlayerDeck {
 
                 "\n  Permanent Gems: " + printGems("permanent") +
                 "\n  Gems on hand: " + printGems("hand") +
-                "\n  Total Gems: " + printGems("total")
+                "\n  Total Gems: " + printGems("total") +
+                printGold
         );
     }
 
     public void addDevelopment(Card dev){
         developments.add(dev);
         prestige+=dev.getPrestige();
-
         //Check the gem type
         int gemType;
         if(dev.getGemType()=='W'){
@@ -234,8 +244,32 @@ public class PlayerDeck {
         else{
             gemType=4;
         }
+        //Subtract the card's price with the player's permanentGems first
+        int[] subtractedByPermanent = subtractArrayBuyDev(dev.getPrice(), permanentGems);
+        //And then we subtract player's handGems with the previous subtracted one, so the permanent gems
+        //act as discounts
+        for(int i=0;i<5;i++){
+            handGems[i] -= subtractedByPermanent[i];
+            //If handGem is -1 then increment it by one (gold wild card). Due to previous checkDevelopment
+            //we knew that there will only be one -1 that is why we can simply add +1 to the handGems index.
+            if(handGems[i]==-1){
+                handGems[i]++;
+            }
+        }
         //Increments permanent gems
         permanentGems[gemType]++;
+    }
+
+    //Subtract main array by subtractBy, only reduce indexes with values >0
+    private int[] subtractArrayBuyDev(int[] main, int[] subtractBy){
+        int[] retVal = {0,0,0,0,0};
+
+        for(int i=0;i<5;i++){
+            if(main[i]>0){
+                retVal[i] = main[i] - subtractBy[i];
+            }
+        }
+        return retVal;
     }
 
     public void addNoble(Noble noble){
@@ -281,6 +315,13 @@ public class PlayerDeck {
 
     public ArrayList<Noble> getNobles() {
         return nobles;
+    }
+
+    /*
+    Set permanent gems for testing
+     */
+    public void setPermanentGems(int[] permGem){
+        this.permanentGems = permGem;
     }
 
     public int[] getPermanentGems() {
