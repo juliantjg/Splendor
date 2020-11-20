@@ -224,7 +224,7 @@ public class PlayerDeck {
         );
     }
 
-    public void addDevelopment(Card dev){
+    public int[] addDevelopment(Card dev){
         developments.add(dev);
         prestige+=dev.getPrestige();
         //Check the gem type
@@ -248,16 +248,25 @@ public class PlayerDeck {
         int[] subtractedByPermanent = subtractArrayBuyDev(dev.getPrice(), permanentGems);
         //And then we subtract player's handGems with the previous subtracted one, so the permanent gems
         //act as discounts
+        int indexGold = -1;
         for(int i=0;i<5;i++){
             handGems[i] -= subtractedByPermanent[i];
             //If handGem is -1 then increment it by one (gold wild card). Due to previous checkDevelopment
             //we knew that there will only be one -1 that is why we can simply add +1 to the handGems index.
             if(handGems[i]==-1){
                 handGems[i]++;
+                indexGold=i;
             }
         }
         //Increments permanent gems
         permanentGems[gemType]++;
+
+        //If gold is indeed in use, find the gold index and reduce it by 1
+        if(indexGold!=-1){
+            subtractedByPermanent[indexGold]--;
+        }
+        //Return the payment for gameBoard
+        return subtractedByPermanent;
     }
 
     //Subtract main array by subtractBy, only reduce indexes with values >0

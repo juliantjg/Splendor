@@ -62,7 +62,17 @@ public class GameBoard {
         Card retVal = getCardDeck(code)[codeNumber];
         getCardDeck(code)[codeNumber] = null;
         refillDot(code);
+
         return retVal;
+    }
+
+    public void receiveGemPayment(int[] input, boolean gold){
+        for(int i=0;i<5;i++){
+            boardGems[i]+=input[i];
+        }
+        if(gold){
+            this.gold++;
+        }
     }
 
     public boolean checkDevelopment(String inputDevCode){

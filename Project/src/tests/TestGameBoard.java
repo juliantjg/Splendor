@@ -67,7 +67,15 @@ public class TestGameBoard {
         System.out.println(retVal);
     }
 
+    private static void testReceiveGemPayment(){
+        gameBoard = new GameBoard(2);
+
+        gameBoard.printGameBoard();
+        gameBoard.takeDevelopment("a2");
+        gameBoard.printGameBoard();
+    }
+
     public static void main(String[] args){
-        testTakeGems();
+        testReceiveGemPayment();
     }
 }
