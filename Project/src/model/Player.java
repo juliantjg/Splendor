@@ -8,6 +8,7 @@ public class Player {
     public Player(int no, String name){
         this.playerNo = no;
         this.name = name;
+        playerDeck = new PlayerDeck(name);
     }
 
     public String getName() {

@@ -66,7 +66,7 @@ public class Main {
 
     private static void printLoading2(){
         System.out.println("\n Game starting in:");
-        sleep(1000);
+        sleep(400);
         System.out.println(" 3..");
         sleep(1000);
         System.out.println(" 2..");
@@ -74,7 +74,7 @@ public class Main {
         System.out.println(" 1..");
         sleep(1000);
         System.out.println("\n --START--");
-        sleep(1000);
+        sleep(500);
     }
 
     private static void menu(){
