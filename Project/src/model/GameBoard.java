@@ -237,15 +237,28 @@ public class GameBoard {
     }
 
     public void printGameBoard(){
+        printGameBoardLines();
+        System.out.println("G A M E - B O A R D");
+        printGameBoardLines();
+        System.out.println("");
         printNobles();
         System.out.println();
         printDevelopment();
         System.out.println();
         printGems();
+        printGameBoardLines();
+    }
+
+    private void printGameBoardLines(){
+        String lines="";
+        for(int i=0;i<300;i++){
+            lines+="_";
+        }
+        System.out.println(lines);
     }
 
     private void printGems(){
-        System.out.println("G E M S");
+        System.out.println("Gems");
 
         printGemLines();
 
@@ -270,7 +283,7 @@ public class GameBoard {
     }
 
     private void printDevelopment(){
-        System.out.println("D E V E L O P M E N T S");
+        System.out.println("Developments");
         printDevelopmentLines();
         printDevelopmentCards("a");
         printDevelopmentLines();
@@ -337,7 +350,7 @@ public class GameBoard {
     }
 
     private void printNobles() {
-        System.out.println("N O B L E S");
+        System.out.println("Nobles");
         if(numOfNobles>0) {
             printNobleLines();
 

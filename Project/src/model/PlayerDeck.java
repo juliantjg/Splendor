@@ -139,19 +139,44 @@ public class PlayerDeck {
     }
 
     public void printPublicDeck(){
-        String printGold = "";
-        if(this.gold>0){
-            printGold = "\n  GOLD (E): " + this.gold;
+        System.out.println("PLAYER " + this.name + "'S DECK");
+        System.out.println(publicDeckLines());
+        System.out.format("%-44s", "[  ----PRESTIGE:" + prestige + "----");
+        printPublicCloseBracket();
+        System.out.format("%-44s", "[  Num. of developments: " + developments.size());
+        printPublicCloseBracket();
+        System.out.format("%-44s", "[  Num. of nobles: " + nobles.size());
+        printPublicCloseBracket();
+        System.out.format("%-44s", "[  Permanent gems: " + printGems("permanent"));
+        printPublicCloseBracket();
+        System.out.format("%-44s", "[  Gems on hand: " + printGems("hand"));
+        printPublicCloseBracket();
+        System.out.format("%-44s", "[  Total gems: " + printGems("total"));
+        printPublicCloseBracket();
+        if(gold>0) {
+            System.out.format("%-44s", "[  GOLD (E): " + this.gold);
+            printPublicCloseBracket();
         }
-        System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
-                "\n  Num. of developments: " + developments.size() +
-                "\n  Num. of nobles: " + nobles.size() +
-                "\n  Permanent gems: " + printGems("permanent") +
-                "\n  Gems on hand: " + printGems("hand") +
-                "\n  Total gems: " + printGems("total") +
-                printGold +
-                "\n\n  -> Player " + name + " is reserving " + reserves.size() + " card(s) <-"
-        );
+        if(reserves.size()>0) {
+            System.out.format("%-44s", "[");
+            printPublicCloseBracket();
+            System.out.format("%-44s", "[  -> Player " + name + " is reserving " + reserves.size() + " card(s) <-");
+            printPublicCloseBracket();
+        }
+        System.out.print(publicDeckLines());
+    }
+
+    private void printPublicCloseBracket(){
+        System.out.print("]");
+        System.out.println();
+    }
+
+    private String publicDeckLines(){
+        String retVal="";
+        for(int i=0;i<45;i++){
+            retVal+="-";
+        }
+        return retVal;
     }
 
     private String noblesToString(){

@@ -61,6 +61,7 @@ public class Main {
         printLoading2();
 
         GameEngineCLI2Players gameEngine = new GameEngineCLI2Players(playerName1, playerName2);
+        clearScreen();
         gameEngine.playGame();
     }
 

@@ -76,6 +76,6 @@ public class TestGameBoard {
     }
 
     public static void main(String[] args){
-        testReceiveGemPayment();
+        testPrintFormat();
     }
 }
