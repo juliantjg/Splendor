@@ -251,7 +251,7 @@ public class GameBoard {
 
     private void printGameBoardLines(){
         String lines="";
-        for(int i=0;i<300;i++){
+        for(int i=0;i<131;i++){
             lines+="_";
         }
         System.out.println(lines);
