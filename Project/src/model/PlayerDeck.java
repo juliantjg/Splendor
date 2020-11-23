@@ -141,32 +141,33 @@ public class PlayerDeck {
     public void printPublicDeck(){
         System.out.println("PLAYER " + this.name + "'S DECK");
         System.out.println(publicDeckLines());
-        System.out.format("%-44s", "[  ----PRESTIGE:" + prestige + "----");
-        printPublicCloseBracket();
+        System.out.format("%-12s", "[");
+        System.out.format("%-32s", ">>>> PRESTIGE:" + prestige + " <<<<");
+        printCloseBracket();
         System.out.format("%-44s", "[  Num. of developments: " + developments.size());
-        printPublicCloseBracket();
+        printCloseBracket();
         System.out.format("%-44s", "[  Num. of nobles: " + nobles.size());
-        printPublicCloseBracket();
+        printCloseBracket();
         System.out.format("%-44s", "[  Permanent gems: " + printGems("permanent"));
-        printPublicCloseBracket();
+        printCloseBracket();
         System.out.format("%-44s", "[  Gems on hand: " + printGems("hand"));
-        printPublicCloseBracket();
+        printCloseBracket();
         System.out.format("%-44s", "[  Total gems: " + printGems("total"));
-        printPublicCloseBracket();
+        printCloseBracket();
         if(gold>0) {
             System.out.format("%-44s", "[  GOLD (E): " + this.gold);
-            printPublicCloseBracket();
+            printCloseBracket();
         }
         if(reserves.size()>0) {
             System.out.format("%-44s", "[");
-            printPublicCloseBracket();
+            printCloseBracket();
             System.out.format("%-44s", "[  -> Player " + name + " is reserving " + reserves.size() + " card(s) <-");
-            printPublicCloseBracket();
+            printCloseBracket();
         }
         System.out.print(publicDeckLines());
     }
 
-    private void printPublicCloseBracket(){
+    private void printCloseBracket(){
         System.out.print("]");
         System.out.println();
     }
@@ -179,23 +180,29 @@ public class PlayerDeck {
         return retVal;
     }
 
-    private String noblesToString(){
-        String output="";
+    private void noblesToString(){
+        if(nobles.size()>0) {
+            String output = "";
 
-        for(int i=0;i<nobles.size();i++){
-            int count=i+1;
-            output+="     Noble " + count + " (Prestige: " + nobles.get(i).getPrestige() + ")\n";
+            for (int i = 0; i < nobles.size(); i++) {
+                int count = i + 1;
+                output += "[     Noble " + count + " (Prestige: " + nobles.get(i).getPrestige() + ")";
+            }
+            System.out.format("%-70s", output);
+            printCloseBracket();
         }
-        return output;
     }
 
-    private String developmentsToString(){
-        String output="";
-        for(int i=0;i<developments.size();i++){
-            int count=i+1;
-            output+="     Dev " + count + " " + developments.get(i).printStored() + "\n";
+    private void developmentsToString(){
+        if(developments.size()>0) {
+            String output = "";
+            for (int i = 0; i < developments.size(); i++) {
+                int count = i + 1;
+                output += "[     Dev " + count + " " + developments.get(i).printStored();
+            }
+            System.out.format("%-70s", output);
+            printCloseBracket();
         }
-        return output;
     }
 
     public void buyReserve(String input){
@@ -217,36 +224,63 @@ public class PlayerDeck {
         }
     }
 
-    private String reservesToString(){
-        String output="";
-        for(int i=0;i<reserves.size();i++){
-            int count=i+1;
-            output+="     Res " + count + " " + reserves.get(i).printWithPrice() + "\n";
+    private void reservesToString(){
+        if(reserves.size()>0) {
+            String output = "";
+            for (int i = 0; i < reserves.size(); i++) {
+                int count = i + 1;
+                output += "[     Res " + count + " " + reserves.get(i).printWithPrice();
+            }
+            System.out.format("%-70s", output);
+            printCloseBracket();
         }
-        return output;
+    }
+
+    private String personalDeckLines(){
+        String retVal = "";
+        for(int i=0;i<71;i++){
+            retVal+="-";
+        }
+        return retVal;
     }
 
     public void printPersonalDeck(){
-        String printGold = "";
+        System.out.println("YOUR PLAYER DECK");
+        System.out.println(personalDeckLines());
+
+        System.out.format("%-25s", "[");
+        System.out.format("%-45s", ">>>> PRESTIGE:" + prestige + " <<<<");
+        printCloseBracket();
+
+        System.out.format("%-70s", "[  Nobles:");
+        printCloseBracket();
+        noblesToString();
+        System.out.format("%-70s", "[");
+        printCloseBracket();
+
+        System.out.format("%-70s", "[  Developments:");
+        printCloseBracket();
+        developmentsToString();
+        System.out.format("%-70s", "[");
+        printCloseBracket();
+
+        System.out.format("%-70s", "[  Reserves:");
+        printCloseBracket();
+        reservesToString();
+        System.out.format("%-70s", "[");
+        printCloseBracket();
+
+        System.out.format("%-70s", "[  Permanent Gems: " + printGems("permanent"));
+        printCloseBracket();
+        System.out.format("%-70s", "[  Gems on hand: " + printGems("hand"));
+        printCloseBracket();
+        System.out.format("%-70s", "[  Total Gems: " + printGems("total"));
+        printCloseBracket();
         if(this.gold>0){
-            printGold = "\n  GOLD (E): " + this.gold;
+            System.out.format("%-70s", "[  GOLD (E): "+ this.gold);
+            printCloseBracket();
         }
-
-        System.out.println("Player: " + name + "  ----PRESTIGE:" + prestige + "----" +
-                "\n  Nobles:" +
-                "\n" + noblesToString() +
-
-                "\n  Developments:" +
-                "\n" + developmentsToString() +
-
-                "\n  Reserves:" +
-                "\n" + reservesToString() +
-
-                "\n  Permanent Gems: " + printGems("permanent") +
-                "\n  Gems on hand: " + printGems("hand") +
-                "\n  Total Gems: " + printGems("total") +
-                printGold
-        );
+        System.out.println(personalDeckLines());
     }
 
     public int[] addDevelopment(Card dev){
