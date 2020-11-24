@@ -25,23 +25,54 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 }else {
                     opponentNo=1;
                 }
-                printOpponentDeck(opponentNo);
-                gameBoard.printGameBoard();
-                System.out.println("");
-                printPrivateBoard(playerNo);
-                String input;
-                do{
-                    System.out.println("Your turn: (tip: help)");
-                    System.out.print(">");
-                    input = keyboard.nextLine();
-                } while(!processInput(input));
+                boolean flag=false;
+                do {
+                    clearScreen();
+                    printOpponentDeck(opponentNo);
+                    gameBoard.printGameBoard();
+                    System.out.println("");
+                    printPrivateBoard(playerNo);
+                    String input;
+
+                    do {
+                        System.out.println("Your turn: (tip: help)");
+                        System.out.print(">");
+                        input = keyboard.nextLine();
+                        flag=true;
+                    } while (!processInput(input));
+
+                    if(input.toLowerCase().equals("help")){
+                        String helpInput="";
+                        drawHelp();
+                        do{
+                            System.out.println("Input 'back' to go back");
+                            System.out.print(">");
+                            input = keyboard.nextLine();
+                        } while(!input.equals("back"));
+                        flag=false;
+                    }
+                } while(flag==false);
             }
         }
+    }
+
+    protected void clearScreen(){
+        for(int i=0;i<200;i++){
+            System.out.println("");
+        }
+    }
+
+    protected void drawHelp(){
+        clearScreen();
+        System.out.println("This is help");
     }
 
     protected boolean processInput(String input){
         boolean retVal=false;
 
+        if(input.toLowerCase().equals("help")){
+            retVal = true;
+        }
 
 
         return retVal;
