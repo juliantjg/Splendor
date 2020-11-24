@@ -245,7 +245,7 @@ public class PlayerDeck {
     }
 
     public void printPersonalDeck(){
-        System.out.println("YOUR PLAYER DECK");
+        System.out.println("YOUR PLAYER DECK (Player name:" + name + ")");
         System.out.println(personalDeckLines());
 
         System.out.format("%-25s", "[");
