@@ -35,6 +35,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                     String input;
 
                     do {
+                        System.out.println("");
                         System.out.println("Your turn: (tip: help)");
                         System.out.print(">");
                         input = keyboard.nextLine();
@@ -56,6 +57,51 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         }
     }
 
+    protected boolean processInput(String input){
+        boolean retVal=false;
+
+        if(input.toLowerCase().equals("help")){
+            retVal = true;
+        }
+        else if(input.contains(" ")){
+            if(input.substring(0, input.indexOf(" ")).equals("take")){
+                retVal = true;
+            }
+            else if(input.substring(0, input.indexOf(" ")).equals("reserve")){
+
+            }
+            else if(input.substring(0, input.indexOf(" ")).equals("buy")){
+
+            }
+            else if(input.substring(0, input.indexOf(" ")).equals("pay")){
+
+            }
+            else{
+                System.out.println("** Invalid command. Please look up the help page **");
+                retVal = false;
+            }
+        }
+        else{
+            if(input.equals("take")){
+                System.out.println("** Please specify the gems **");
+            }
+            else if(input.equals("buy")){
+                System.out.println("** Please specify the development you'd like to buy **");
+            }
+            else if(input.equals("reserve")){
+                System.out.println("** Please specify the development you'd like to reserve **");
+            }
+            else if(input.equals("pay")){
+                System.out.println("** Please specify the reserved you'd like to pay **");
+            }
+            else{
+                System.out.println("** Invalid command. Please look up the help page **");
+            }
+            return false;
+        }
+        return retVal;
+    }
+
     protected void clearScreen(){
         for(int i=0;i<200;i++){
             System.out.println("");
@@ -65,17 +111,6 @@ public class GameEngineCLI2Players implements GameEngineCLI {
     protected void drawHelp(){
         clearScreen();
         System.out.println("This is help");
-    }
-
-    protected boolean processInput(String input){
-        boolean retVal=false;
-
-        if(input.toLowerCase().equals("help")){
-            retVal = true;
-        }
-
-
-        return retVal;
     }
 
     protected void printPrivateBoard(int playerNo){

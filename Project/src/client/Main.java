@@ -10,13 +10,13 @@ public class Main {
         printSign();
         System.out.format("\n%36s", "[Now Loading...]\n");
 
-        printLoading();
+        //printLoading();
 
-        clearScreen();
         mainMenu();
     }
 
     private static void mainMenu(){
+        clearScreen();
         Scanner keyboard = new Scanner(System.in);
         menu();
         System.out.println("");
@@ -33,7 +33,14 @@ public class Main {
                 System.out.println("3 players mode isn't yet available");
                 inputCheck=-1;
             }else if(input.equals("3")){
-                inputCheck=1;
+                printHelp();
+                String helpInput = "";
+                do{
+                    System.out.println("Input 'back' to go back");
+                    System.out.print(">");
+                    helpInput = keyboard.nextLine();
+                }while(!helpInput.toLowerCase().equals("back"));
+                mainMenu();
             }
             else if(input.equals("4")){
                 inputCheck=1;
@@ -47,6 +54,11 @@ public class Main {
         }
     }
 
+    private static void printHelp(){
+        clearScreen();
+        System.out.println("This is how to play");
+    }
+
     private static void newGame2Players(){
 
         Scanner keyboard = new Scanner(System.in);
@@ -58,7 +70,7 @@ public class Main {
         System.out.print(">");
         String playerName2 = keyboard.nextLine();
 
-        printLoading2();
+        //printLoading2();
 
         GameEngineCLI2Players gameEngine = new GameEngineCLI2Players(playerName1, playerName2);
         clearScreen();
