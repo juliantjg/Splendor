@@ -96,7 +96,7 @@ public class GameBoard {
         }
     }
 
-    private int[] convertRawInputToArray(String input){
+    public int[] convertRawInputToArray(String input){
         int[] retVal = new int[]{0,0,0,0,0};
         for(int i=0;i<input.length();i++){
             String substrings = input.substring(i,i+1);

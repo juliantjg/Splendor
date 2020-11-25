@@ -40,7 +40,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                         System.out.print(">");
                         input = keyboard.nextLine();
                         flag=true;
-                    } while (!processInput(input));
+                    } while (!processInput(input ,playerNo));
 
                     if(input.toLowerCase().equals("help")){
                         String helpInput="";
@@ -57,7 +57,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         }
     }
 
-    protected boolean processInput(String input){
+    protected boolean processInput(String input, int playerNo){
         boolean retVal=false;
 
         if(input.toLowerCase().equals("help")){
@@ -65,12 +65,12 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         }
         else if(input.contains(" ")){
             if(input.substring(0, input.indexOf(" ")).equals("take")){
-                retVal = true;
-            }
-            else if(input.substring(0, input.indexOf(" ")).equals("reserve")){
-
+                return processInputTake(playerNo, input);
             }
             else if(input.substring(0, input.indexOf(" ")).equals("buy")){
+
+            }
+            else if(input.substring(0, input.indexOf(" ")).equals("reserve")){
 
             }
             else if(input.substring(0, input.indexOf(" ")).equals("pay")){
@@ -100,6 +100,60 @@ public class GameEngineCLI2Players implements GameEngineCLI {
             return false;
         }
         return retVal;
+    }
+
+    protected boolean processInputTake(int playerNo, String input){
+        String inputSubstring = input.substring(5, input.length());
+        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
+        int returnErrorNo = gameBoard.checkInputTakeGems(inputSubstring);
+        if(returnErrorNo == 200){
+            int[] rawInputArray = gameBoard.convertRawInputToArray(inputSubstring);
+            if(playerDeck.checkGems(rawInputArray)){
+                gameBoard.takeGems(rawInputArray);
+                playerDeck.addHandGems(rawInputArray);
+                return true;
+            }
+            else{
+                System.out.println("** You can't have more than 10 gems! **");
+                return false;
+            }
+        }
+        else{
+            printErrorMessageTakeGems(returnErrorNo);
+            return false;
+        }
+    }
+
+    protected void printErrorMessageTakeGems(int errorNo){
+        String errorMessage="";
+        if(errorNo==1){
+            errorMessage = "** You can't take the gold gem. Please try again **";
+        }
+        else if(errorNo==2){
+            errorMessage = "** Invalid take gem format. Please look up the help page **";
+        }
+        else if(errorNo==22){
+            errorMessage = "** You can't take only 1 gem **";
+        }
+        else if(errorNo==3){
+            errorMessage = "** Invalid gem code. (must be one of the following: W,R,G,O,B) **";
+        }
+        else if(errorNo==4){
+            errorMessage = "** Invalid format, please look up the help page for take gem format **";
+        }
+        else if(errorNo==5){
+            errorMessage = "** You must take 2 same coloured gems OR 3 different coloured gems **";
+        }
+        else if(errorNo==6){
+            errorMessage = "** You must take 3 different coloured gems OR 2 same coloured gems **";
+        }
+        else if(errorNo==7){
+            errorMessage = "** Not enough gems to take **";
+        }
+        else{
+            errorMessage = "** You can't take 2 same coloured gems from a tile with less than 2 gems after taking **";
+        }
+        System.out.println(errorMessage);
     }
 
     protected void clearScreen(){
