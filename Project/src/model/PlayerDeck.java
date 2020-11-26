@@ -71,6 +71,7 @@ public class PlayerDeck {
 
     public void reserve(Card inputCard, int gold){
         reserves.add(inputCard);
+        //If gameBoard have more than 0 gold
         if(gold>0){
             this.gold++;
         }

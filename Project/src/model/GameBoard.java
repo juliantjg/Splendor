@@ -442,4 +442,12 @@ public class GameBoard {
             }
         }
     }
+
+    public int getGold(){
+        return gold;
+    }
+
+    public void takeGold(){
+        gold--;
+    }
 }

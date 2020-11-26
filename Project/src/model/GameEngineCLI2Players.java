@@ -103,6 +103,28 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         return retVal;
     }
 
+    protected boolean processInputReserve(int playerNo, String input){
+        String inputSubstring = input.substring(4, input.length());
+        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
+
+        if(gameBoard.checkDevelopment(inputSubstring)){
+            Card developmentToReserve = gameBoard.getDevelopment(inputSubstring);
+            if(playerDeck.checkReserve()==2){
+                playerDeck.reserve(gameBoard.takeDevelopment(inputSubstring), gameBoard.getGold());
+                gameBoard.takeGold();
+                return true;
+            }
+            else{
+                printErrorMessageTakeGems(11);
+                return false;
+            }
+        }
+        else{
+            printErrorMessageTakeGems(9);
+            return false;
+        }
+    }
+
     protected boolean processInputBuy(int playerNo, String input){
         String inputSubstring = input.substring(4, input.length());
         PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
@@ -140,6 +162,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 if(useGem){
                     int[] payment = playerDeck.addDevelopment(gameBoard.takeDevelopment(inputSubstring));
                     gameBoard.receiveGemPayment(payment, true);
+                    playerDeck.takeGold();
                     return true;
                 }
                 else{
@@ -220,6 +243,9 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         }
         else if(errorNo==10){
             errorMessage = "Insufficient gems";
+        }
+        else if(errorNo==11){
+            errorMessage = "You can't have more than 3 reserves!";
         }
         System.out.println("** " + errorMessage + " **");
     }
