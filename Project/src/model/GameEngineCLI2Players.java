@@ -108,7 +108,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
 
         int retValBuyReserve = playerDeck.checkBuyReserve(inputSubstring);
-        if(retValBuyReserve!=-3){
+        if(retValBuyReserve>-20){
             if(retValBuyReserve>=0){
                 int[] payment = playerDeck.buyReserve(inputSubstring);
                 gameBoard.receiveGemPayment(payment, false);
@@ -133,7 +133,12 @@ public class GameEngineCLI2Players implements GameEngineCLI {
             }
         }
         else{
-            printErrorMessageTakeGems(13);
+            if(retValBuyReserve==-33){
+                printErrorMessageTakeGems(14);
+            }
+            else{
+                printErrorMessageTakeGems(13);
+            }
             return false;
         }
     }
@@ -290,7 +295,10 @@ public class GameEngineCLI2Players implements GameEngineCLI {
             errorMessage = "You don't have enough gems to pay";
         }
         else if(errorNo==13){
-            errorMessage = "Invalid reserve number. (Please choose 1/2/3 from your reserves)";
+            errorMessage = "Invalid reserve number. Please choose 1/2/3 from your reserves";
+        }
+        else if(errorNo==14){
+            errorMessage = "Can't find the reserve card. Please choose 1/2/3 from your reserves";
         }
         System.out.println("** " + errorMessage + " **");
     }

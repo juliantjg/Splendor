@@ -140,7 +140,7 @@ public class PlayerDeck {
     }
 
     public void printPublicDeck(){
-        System.out.println("PLAYER " + this.name + "'S DECK");
+        System.out.println("PLAYER " + this.name.toUpperCase() + "'S DECK");
         System.out.println(publicDeckLines());
         System.out.format("%-12s", "[");
         System.out.format("%-32s", ">>>> PRESTIGE:" + prestige + " <<<<");
@@ -215,15 +215,19 @@ public class PlayerDeck {
     }
 
     public int checkBuyReserve(String input){
-        int inputNum = Integer.parseInt(input) - 1;
+        if(input.equals("1") || input.equals("2") || input.equals("3")) {
+            int inputNum = Integer.parseInt(input) - 1;
 
-        if(inputNum<reserves.size()){
-            //Return checkDevelopment() to enable using gold
-            return checkDevelopment(reserves.get(inputNum));
+            if (inputNum < reserves.size()) {
+                //Return checkDevelopment() to enable using gold
+                return checkDevelopment(reserves.get(inputNum));
+            } else {
+                //False
+                return -33;
+            }
         }
         else{
-            //False
-            return -3;
+            return -55;
         }
     }
 
@@ -248,7 +252,7 @@ public class PlayerDeck {
     }
 
     public void printPersonalDeck(){
-        System.out.println("YOUR PLAYER DECK (Player name:" + name + ")");
+        System.out.println("-PLAYER " + name.toUpperCase() + "'S TURN-    [Scroll up to see opponents' player deck]");
         System.out.println(personalDeckLines());
 
         System.out.format("%-25s", "[");
