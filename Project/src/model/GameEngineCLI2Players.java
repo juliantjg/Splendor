@@ -57,7 +57,8 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         }
     }
 
-    protected boolean processInput(String input, int playerNo){
+    protected boolean processInput(String inputRaw, int playerNo){
+        String input = inputRaw.toLowerCase();
         boolean retVal=false;
 
         if(input.toLowerCase().equals("help")){
@@ -68,7 +69,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 return processInputTake(playerNo, input);
             }
             else if(input.substring(0, input.indexOf(" ")).equals("buy")){
-
+                return processInputBuy(playerNo, input);
             }
             else if(input.substring(0, input.indexOf(" ")).equals("reserve")){
 
@@ -102,10 +103,68 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         return retVal;
     }
 
+    protected boolean processInputBuy(int playerNo, String input){
+        String inputSubstring = input.substring(4, input.length());
+        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
+
+        if(gameBoard.checkDevelopment(inputSubstring)){
+            Card developmentToTake = gameBoard.getDevelopment(inputSubstring);
+            int retVal = playerDeck.checkDevelopment(developmentToTake);
+            //If gems are sufficient
+            if(retVal >= 0){
+                int[] payment = playerDeck.addDevelopment(gameBoard.takeDevelopment(inputSubstring));
+                gameBoard.receiveGemPayment(payment, false);
+                return true;
+            }
+            //If -1 gem and player has a gold gem (wild card)
+            else if(retVal == -1 && playerDeck.getGold()>0){
+                Scanner scanner = new Scanner(System.in);
+                boolean useGem = false;
+                int flag=-1;
+                do {
+                    System.out.print("You need 1 more gem. Use gold? (Y/N) >");
+                    String yesOrNo = scanner.nextLine();
+                    if(yesOrNo.toLowerCase().equals("y")){
+                        useGem=true;
+                        flag=0;
+                    }
+                    else if(yesOrNo.toLowerCase().equals("n")){
+                        useGem=false;
+                        flag=0;
+                    }
+                    else{
+                        flag=-1;
+                    }
+                } while(flag==-1);
+
+                if(useGem){
+                    int[] payment = playerDeck.addDevelopment(gameBoard.takeDevelopment(inputSubstring));
+                    gameBoard.receiveGemPayment(payment, true);
+                    return true;
+                }
+                else{
+                    System.out.println("** Purchase cancelled **");
+                    return false;
+                }
+            }
+            //If insufficient gems
+            else{
+                printErrorMessageTakeGems(10);
+                return false;
+            }
+        }
+        //If invalid development code
+        else{
+            printErrorMessageTakeGems(9);
+            return false;
+        }
+    }
+
     protected boolean processInputTake(int playerNo, String input){
-        String inputSubstring = input.substring(5, input.length());
+        String inputSubstring = input.substring(5, input.length()).toUpperCase();
         PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
         int returnErrorNo = gameBoard.checkInputTakeGems(inputSubstring);
+
         if(returnErrorNo == 200){
             int[] rawInputArray = gameBoard.convertRawInputToArray(inputSubstring);
             if(playerDeck.checkGems(rawInputArray)){
@@ -114,7 +173,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 return true;
             }
             else{
-                System.out.println("** You can't have more than 10 gems! **");
+                printErrorMessageTakeGems(8);
                 return false;
             }
         }
@@ -127,33 +186,42 @@ public class GameEngineCLI2Players implements GameEngineCLI {
     protected void printErrorMessageTakeGems(int errorNo){
         String errorMessage="";
         if(errorNo==1){
-            errorMessage = "** You can't take the gold gem. Please try again **";
+            errorMessage = "You can't take the gold gem. Please try again";
         }
         else if(errorNo==2){
-            errorMessage = "** Invalid take gem format. Please look up the help page **";
+            errorMessage = "Invalid take gem format. Please look up the help page ";
         }
         else if(errorNo==22){
-            errorMessage = "** You can't take only 1 gem **";
+            errorMessage = "You can't take only 1 gem";
         }
         else if(errorNo==3){
-            errorMessage = "** Invalid gem code. (must be one of the following: W,R,G,O,B) **";
+            errorMessage = "Invalid gem code. (must be one of the following: W,R,G,O,B)";
         }
         else if(errorNo==4){
-            errorMessage = "** Invalid format, please look up the help page for take gem format **";
+            errorMessage = "Invalid format, please look up the help page for take gem format";
         }
         else if(errorNo==5){
-            errorMessage = "** You must take 2 same coloured gems OR 3 different coloured gems **";
+            errorMessage = "You must take 2 same coloured gems OR 3 different coloured gems";
         }
         else if(errorNo==6){
-            errorMessage = "** You must take 3 different coloured gems OR 2 same coloured gems **";
+            errorMessage = "You must take 3 different coloured gems OR 2 same coloured gems";
         }
         else if(errorNo==7){
-            errorMessage = "** Not enough gems to take **";
+            errorMessage = "Not enough gems to take";
         }
-        else{
-            errorMessage = "** You can't take 2 same coloured gems from a tile with less than 2 gems after taking **";
+        else if(errorNo==75){
+            errorMessage = "You can't take 2 same coloured gems from a tile with less than 2 gems after taking";
         }
-        System.out.println(errorMessage);
+        else if(errorNo==8){
+            errorMessage = "You can't have more than 10 gems on your hand!";
+        }
+        else if(errorNo==9){
+            errorMessage = "Invalid development number. (Dev no can be seen on the card)";
+        }
+        else if(errorNo==10){
+            errorMessage = "Insufficient gems";
+        }
+        System.out.println("** " + errorMessage + " **");
     }
 
     protected void clearScreen(){

@@ -272,7 +272,7 @@ public class PlayerDeck {
 
         System.out.format("%-70s", "[  Permanent Gems: " + printGems("permanent"));
         printCloseBracket();
-        System.out.format("%-70s", "[  Gems on hand: " + printGems("hand"));
+        System.out.format("%-70s", "[  Gems on hand: " + printGems("hand") + "  (Total:" + getTotalGemCount(handGems) + ")");
         printCloseBracket();
         System.out.format("%-70s", "[  Total Gems: " + printGems("total"));
         printCloseBracket();
@@ -351,6 +351,14 @@ public class PlayerDeck {
         for(int i=0;i<5;i++){
             handGems[i]+=gems[i];
         }
+    }
+
+    private int getTotalGemCount(int[] gems){
+        int retVal=0;
+        for(int i=0;i<5;i++){
+            retVal+=gems[i];
+        }
+        return retVal;
     }
 
     /*

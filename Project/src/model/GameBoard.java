@@ -56,6 +56,16 @@ public class GameBoard {
         }
     }
 
+    //Only return the card without taking it from the deck
+    public Card getDevelopment(String inputDevCode){
+        String code = inputDevCode.substring(0,1);
+        int codeNumber = Integer.parseInt(inputDevCode.substring(1,2));
+        Card retVal = getCardDeck(code)[codeNumber];
+
+        return retVal;
+    }
+
+    //Taking the card from the deck
     public Card takeDevelopment(String inputDevCode){
         String code = inputDevCode.substring(0,1);
         int codeNumber = Integer.parseInt(inputDevCode.substring(1,2));
@@ -76,16 +86,20 @@ public class GameBoard {
     }
 
     public boolean checkDevelopment(String inputDevCode){
-        String code = inputDevCode.substring(0,1);
-        String codeNumber = inputDevCode.substring(1,2);
-        if(code.equals("a") || code.equals("b") || code.equals("c")) {
-            if (codeNumber.equals("0") || codeNumber.equals("1") || codeNumber.equals("2") || codeNumber.equals("3")) {
-                return true;
+        if(inputDevCode.length()==2) {
+            String code = inputDevCode.substring(0, 1);
+            String codeNumber = inputDevCode.substring(1, 2);
+            if (code.equals("a") || code.equals("b") || code.equals("c")) {
+                if (codeNumber.equals("0") || codeNumber.equals("1") || codeNumber.equals("2") || codeNumber.equals("3")) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
         }
-        else{
+        else {
             return false;
         }
     }
