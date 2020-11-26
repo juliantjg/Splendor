@@ -126,7 +126,7 @@ public class Main {
     }
 
     private static void clearScreen(){
-        for(int i=0;i<200;i++){
+        for(int i=0;i<150;i++){
             System.out.println("");
         }
     }

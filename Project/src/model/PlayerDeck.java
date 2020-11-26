@@ -206,10 +206,12 @@ public class PlayerDeck {
         }
     }
 
-    public void buyReserve(String input){
+    public int[] buyReserve(String input){
         int inputNum = Integer.parseInt(input) - 1;
-        addDevelopment(reserves.get(inputNum));
+        int[] retVal = addDevelopment(reserves.get(inputNum));
         reserves.remove(inputNum);
+        //Return the payment for gameBoard
+        return retVal;
     }
 
     public int checkBuyReserve(String input){

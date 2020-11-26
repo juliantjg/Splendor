@@ -72,10 +72,10 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 return processInputBuy(playerNo, input);
             }
             else if(input.substring(0, input.indexOf(" ")).equals("reserve")){
-
+                return processInputReserve(playerNo, input);
             }
             else if(input.substring(0, input.indexOf(" ")).equals("pay")){
-
+                return processInputPay(playerNo, input);
             }
             else{
                 System.out.println("** Invalid command. Please look up the help page **");
@@ -103,8 +103,43 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         return retVal;
     }
 
-    protected boolean processInputReserve(int playerNo, String input){
+    protected boolean processInputPay(int playerNo, String input){
         String inputSubstring = input.substring(4, input.length());
+        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
+
+        int retValBuyReserve = playerDeck.checkBuyReserve(inputSubstring);
+        if(retValBuyReserve!=-3){
+            if(retValBuyReserve>=0){
+                int[] payment = playerDeck.buyReserve(inputSubstring);
+                gameBoard.receiveGemPayment(payment, false);
+                return true;
+            }
+            else if(retValBuyReserve==-1 && playerDeck.getGold()>0){
+                boolean retValUseGold = useGold();
+                if(retValUseGold){
+                    int[] payment = playerDeck.buyReserve(inputSubstring);
+                    gameBoard.receiveGemPayment(payment, true);
+                    playerDeck.takeGold();
+                    return true;
+                }
+                else{
+                    System.out.println("** Purchase cancelled **");
+                    return false;
+                }
+            }
+            else{
+                printErrorMessageTakeGems(12);
+                return false;
+            }
+        }
+        else{
+            printErrorMessageTakeGems(13);
+            return false;
+        }
+    }
+
+    protected boolean processInputReserve(int playerNo, String input){
+        String inputSubstring = input.substring(8, input.length());
         PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
 
         if(gameBoard.checkDevelopment(inputSubstring)){
@@ -140,26 +175,8 @@ public class GameEngineCLI2Players implements GameEngineCLI {
             }
             //If -1 gem and player has a gold gem (wild card)
             else if(retVal == -1 && playerDeck.getGold()>0){
-                Scanner scanner = new Scanner(System.in);
-                boolean useGem = false;
-                int flag=-1;
-                do {
-                    System.out.print("You need 1 more gem. Use gold? (Y/N) >");
-                    String yesOrNo = scanner.nextLine();
-                    if(yesOrNo.toLowerCase().equals("y")){
-                        useGem=true;
-                        flag=0;
-                    }
-                    else if(yesOrNo.toLowerCase().equals("n")){
-                        useGem=false;
-                        flag=0;
-                    }
-                    else{
-                        flag=-1;
-                    }
-                } while(flag==-1);
-
-                if(useGem){
+                boolean retValUseGold = useGold();
+                if(retValUseGold){
                     int[] payment = playerDeck.addDevelopment(gameBoard.takeDevelopment(inputSubstring));
                     gameBoard.receiveGemPayment(payment, true);
                     playerDeck.takeGold();
@@ -181,6 +198,28 @@ public class GameEngineCLI2Players implements GameEngineCLI {
             printErrorMessageTakeGems(9);
             return false;
         }
+    }
+
+    protected boolean useGold(){
+        Scanner scanner = new Scanner(System.in);
+        boolean useGem = false;
+        int flag=-1;
+        do {
+            System.out.print("You need 1 more gem. Use gold? (Y/N) >");
+            String yesOrNo = scanner.nextLine();
+            if(yesOrNo.toLowerCase().equals("y")){
+                useGem=true;
+                flag=0;
+            }
+            else if(yesOrNo.toLowerCase().equals("n")){
+                useGem=false;
+                flag=0;
+            }
+            else{
+                flag=-1;
+            }
+        } while(flag==-1);
+        return useGem;
     }
 
     protected boolean processInputTake(int playerNo, String input){
@@ -247,11 +286,17 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         else if(errorNo==11){
             errorMessage = "You can't have more than 3 reserves!";
         }
+        else if(errorNo==12){
+            errorMessage = "You don't have enough gems to pay";
+        }
+        else if(errorNo==13){
+            errorMessage = "Invalid reserve number. (Please choose 1/2/3 from your reserves)";
+        }
         System.out.println("** " + errorMessage + " **");
     }
 
     protected void clearScreen(){
-        for(int i=0;i<200;i++){
+        for(int i=0;i<175;i++){
             System.out.println("");
         }
     }
