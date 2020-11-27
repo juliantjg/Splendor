@@ -5,12 +5,12 @@ import model.interfaces.GameEngineCLI;
 import java.util.Scanner;
 
 public class GameEngineCLI2Players implements GameEngineCLI {
-    private GameBoard gameBoard;
-    private Player player1;
-    private Player player2;
+    protected GameBoard gameBoard;
+    protected Player player1;
+    protected Player player2;
 
-    public GameEngineCLI2Players(String playerName1, String playerName2){
-        gameBoard = new GameBoard(2);
+    public GameEngineCLI2Players(int numOfPlayer, String playerName1, String playerName2){
+        gameBoard = new GameBoard(numOfPlayer);
         player1 = new Player(1, playerName1);
         player2 = new Player(2, playerName2);
     }
@@ -93,6 +93,10 @@ public class GameEngineCLI2Players implements GameEngineCLI {
             winner = player2.getName();
         }
 
+        printWinner(winner);
+    }
+
+    protected void printWinner(String winner){
         if(!winner.equals("draw")){
             System.out.println("\nAnd the winner is ... " + winner.toUpperCase() + " !!" +
                     "\n\n *Note: Player with the most prestige wins. If both player appears to have equal" +

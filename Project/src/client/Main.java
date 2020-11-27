@@ -1,6 +1,7 @@
 package client;
 
 import model.GameEngineCLI2Players;
+import model.GameEngineCLI3Players;
 
 import java.util.Scanner;
 
@@ -30,8 +31,8 @@ public class Main {
                 newGame2Players();
             }
             else if(input.equals("2")){
-                System.out.println("3 players mode isn't yet available");
-                inputCheck=-1;
+                inputCheck=1;
+                newGame3Players();
             }else if(input.equals("3")){
                 printHelp();
                 String helpInput = "";
@@ -54,13 +55,33 @@ public class Main {
         }
     }
 
+    private static void newGame3Players(){
+        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Enter name for Player 1: ");
+        System.out.print(">");
+        String playerName1 = keyboard.nextLine();
+        System.out.println("Enter name for Player 2: ");
+        System.out.print(">");
+        String playerName2 = keyboard.nextLine();
+        System.out.println("Enter name for Player 3: ");
+        System.out.print(">");
+        String playerName3 = keyboard.nextLine();
+
+        printLoading2();
+
+        GameEngineCLI3Players gameEngine = new GameEngineCLI3Players(3, playerName1, playerName2, playerName3);
+        clearScreen();
+        gameEngine.playGame();
+        playAgain();
+    }
+
     private static void printHelp(){
         clearScreen();
         System.out.println("This is how to play");
     }
 
     private static void newGame2Players(){
-
         Scanner keyboard = new Scanner(System.in);
 
         System.out.println("Enter name for Player 1: ");
@@ -72,9 +93,14 @@ public class Main {
 
         printLoading2();
 
-        GameEngineCLI2Players gameEngine = new GameEngineCLI2Players(playerName1, playerName2);
+        GameEngineCLI2Players gameEngine = new GameEngineCLI2Players(2, playerName1, playerName2);
         clearScreen();
         gameEngine.playGame();
+        playAgain();
+    }
+
+    private static void playAgain(){
+        Scanner keyboard = new Scanner(System.in);
         String backInput = "";
         boolean flag = false;
         do {
