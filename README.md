@@ -1,5 +1,5 @@
 # The Splendor Project
 
-Welcome
+## Welcome
 
-Project Board: https://trello.com/b/5OrnmJj2/spendorgame
+Note: I wrote this command line interface version of the original board game Splendor for fun with no intention on commercial use. If you are interested, please buy the original boardgame published by Space Cowboys: https://www.spacecowboys.fr/splendor
