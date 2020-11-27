@@ -10,7 +10,7 @@ public class Main {
         printSign();
         System.out.format("\n%36s", "[Now Loading...]\n");
 
-        //printLoading();
+        printLoading();
 
         mainMenu();
     }
@@ -70,11 +70,28 @@ public class Main {
         System.out.print(">");
         String playerName2 = keyboard.nextLine();
 
-        //printLoading2();
+        printLoading2();
 
         GameEngineCLI2Players gameEngine = new GameEngineCLI2Players(playerName1, playerName2);
         clearScreen();
         gameEngine.playGame();
+        String backInput = "";
+        boolean flag = false;
+        do {
+            System.out.print("Back to main menu? (Y/N) >");
+            backInput = keyboard.nextLine();
+            if(backInput.toLowerCase().equals("y")){
+                mainMenu();
+                flag=true;
+            }
+            else if(backInput.toLowerCase().equals("n")){
+                System.exit(0);
+                flag=true;
+            }
+            else{
+                flag=false;
+            }
+        } while(!flag);
     }
 
     private static void printLoading2(){
@@ -126,7 +143,7 @@ public class Main {
     }
 
     private static void clearScreen(){
-        for(int i=0;i<150;i++){
+        for(int i=0;i<100;i++){
             System.out.println("");
         }
     }

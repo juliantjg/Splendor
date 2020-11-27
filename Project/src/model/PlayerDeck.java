@@ -162,7 +162,7 @@ public class PlayerDeck {
         if(reserves.size()>0) {
             System.out.format("%-44s", "[");
             printCloseBracket();
-            System.out.format("%-44s", "[  -> Player " + name + " is reserving " + reserves.size() + " card(s) <-");
+            System.out.format("%-44s", "[  -> This player is reserving " + reserves.size() + " card(s) <-");
             printCloseBracket();
         }
         System.out.print(publicDeckLines());
@@ -184,13 +184,12 @@ public class PlayerDeck {
     private void noblesToString(){
         if(nobles.size()>0) {
             String output = "";
-
             for (int i = 0; i < nobles.size(); i++) {
                 int count = i + 1;
-                output += "[     Noble " + count + " (Prestige: " + nobles.get(i).getPrestige() + ")";
+                output = "[     Noble " + count + " (Prestige: " + nobles.get(i).getPrestige() + ")";
+                System.out.format("%-70s", output);
+                printCloseBracket();
             }
-            System.out.format("%-70s", output);
-            printCloseBracket();
         }
     }
 
@@ -199,10 +198,10 @@ public class PlayerDeck {
             String output = "";
             for (int i = 0; i < developments.size(); i++) {
                 int count = i + 1;
-                output += "[     Dev " + count + " " + developments.get(i).printStored();
+                output = "[     Dev " + count + " " + developments.get(i).printStored();
+                System.out.format("%-70s", output);
+                printCloseBracket();
             }
-            System.out.format("%-70s", output);
-            printCloseBracket();
         }
     }
 
@@ -236,10 +235,10 @@ public class PlayerDeck {
             String output = "";
             for (int i = 0; i < reserves.size(); i++) {
                 int count = i + 1;
-                output += "[     Res " + count + " " + reserves.get(i).printWithPrice();
+                output = "[     Res " + count + " " + reserves.get(i).printWithPrice();
+                System.out.format("%-70s", output);
+                printCloseBracket();
             }
-            System.out.format("%-70s", output);
-            printCloseBracket();
         }
     }
 
@@ -342,6 +341,9 @@ public class PlayerDeck {
         for(int i=0;i<5;i++){
             if(main[i]>0){
                 retVal[i] = main[i] - subtractBy[i];
+                if(retVal[i]<0){
+                    retVal[i]=0;
+                }
             }
         }
         return retVal;
@@ -417,5 +419,9 @@ public class PlayerDeck {
 
     public int getPrestige() {
         return prestige;
+    }
+
+    public void setPrestige(int prestige){
+        this.prestige = prestige;
     }
 }

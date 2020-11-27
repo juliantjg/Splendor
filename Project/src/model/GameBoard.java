@@ -261,12 +261,13 @@ public class GameBoard {
         System.out.println();
         printGems();
         printGameBoardLines();
+        printGameBoardLines();
     }
 
     private void printGameBoardLines(){
         String lines="";
         for(int i=0;i<131;i++){
-            lines+="_";
+            lines+="=";
         }
         System.out.println(lines);
     }

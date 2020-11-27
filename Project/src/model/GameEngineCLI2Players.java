@@ -29,8 +29,9 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 do {
                     clearScreen();
                     printOpponentDeck(opponentNo);
-                    gameBoard.printGameBoard();
                     System.out.println("");
+                    gameBoard.printGameBoard();
+                    System.out.println("\n");
                     printPrivateBoard(playerNo);
                     String input;
 
@@ -55,6 +56,83 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 } while(flag==false);
             }
         }
+
+        //End of game
+        clearScreen();
+        System.out.println("===  E N D   O F   G A M E ===" +
+                         "\n==============================" +
+                       "\n\nResult:" +
+                         "\n-------\n" +
+                       printResults(player1) +
+                         "\n-------\n" +
+                       printResults(player2));
+
+        PlayerDeck player1Deck = player1.getPlayerDeck();
+        PlayerDeck player2Deck = player2.getPlayerDeck();
+        String winner = "";
+        //If player 1 has more prestige
+        if(player1Deck.getPrestige() > player2Deck.getPrestige()){
+            winner = player1.getName();
+        }
+        //If both player has equal prestige
+        else if(player1Deck.getPrestige() == player2Deck.getPrestige()){
+            //If player 1 purchased less developments
+            if(player1Deck.getDevelopments().size() < player2Deck.getDevelopments().size()){
+                winner = player1.getName();
+            }
+            //If player 2 purchased less developments
+            else if(player1Deck.getDevelopments().size() > player2Deck.getDevelopments().size()){
+                winner = player2.getName();
+            }
+            else{
+                winner = "draw";
+            }
+        }
+        //If player 2 has more prestige
+        else{
+            winner = player2.getName();
+        }
+
+        if(!winner.equals("draw")){
+            System.out.println("\nAnd the winner is ... " + winner.toUpperCase() + " !!" +
+                    "\n\n *Note: Player with the most prestige wins. If both player appears to have equal" +
+                    "\n number of prestige, then player with the least developments wins.");
+        }
+        else{
+            System.out.println("\nIt appears to be a draw !!" +
+                    "\n\n *Note: Player with the most prestige wins. If both player appears to have equal" +
+                    "\n number of prestige, then player with the least developments wins.");
+        }
+        System.out.println("");
+    }
+
+    protected void cheatCode(String code, PlayerDeck playerDeck){
+        if(code.equals("cheatone")) {
+            playerDeck.setPermanentGems(new int[]{1,3,1,1,2});
+            playerDeck.setPrestige(3);
+        }
+        else if(code.equals("cheattwo")){
+            playerDeck.setPermanentGems(new int[]{3,2,3,2,1});
+            playerDeck.setPrestige(8);
+        }
+        else if(code.equals("cheatthree")){
+            playerDeck.setPermanentGems(new int[]{4,2,4,1,0});
+            playerDeck.setPrestige(11);
+        }
+        else if(code.equals("cheatfour")){
+            playerDeck.setPermanentGems(new int[]{4,4,4,4,4});
+            playerDeck.setPrestige(12);
+        }
+        else if(code.equals("cheatendgame")){
+            playerDeck.setPermanentGems(new int[]{4,4,4,4,4});
+            playerDeck.setPrestige(15);
+        }
+    }
+
+    protected String printResults(Player player){
+        return " Player " + player.getName().toUpperCase() + " :" +
+                "\n  Developments purchased: " + player.getPlayerDeck().getDevelopments().size() +
+                "\n  Total prestige: " + player.getPlayerDeck().getPrestige();
     }
 
     protected boolean processInput(String inputRaw, int playerNo){
@@ -85,20 +163,44 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         else{
             if(input.equals("take")){
                 System.out.println("** Please specify the gems **");
+                return false;
             }
             else if(input.equals("buy")){
                 System.out.println("** Please specify the development you'd like to buy **");
+                return false;
             }
             else if(input.equals("reserve")){
                 System.out.println("** Please specify the development you'd like to reserve **");
+                return false;
             }
             else if(input.equals("pay")){
                 System.out.println("** Please specify the reserved you'd like to pay **");
+                return false;
+            }
+            else if(input.equals("cheatone")){
+                cheatCode("cheatone", getPlayer(playerNo).getPlayerDeck());
+                return true;
+            }
+            else if(input.equals("cheattwo")){
+                cheatCode("cheattwo", getPlayer(playerNo).getPlayerDeck());
+                return true;
+            }
+            else if(input.equals("cheatthree")){
+                cheatCode("cheatthree", getPlayer(playerNo).getPlayerDeck());
+                return true;
+            }
+            else if(input.equals("cheatfour")){
+                cheatCode("cheatfour", getPlayer(playerNo).getPlayerDeck());
+                return true;
+            }
+            else if(input.equals("cheatendgame")){
+                cheatCode("cheatendgame", getPlayer(playerNo).getPlayerDeck());
+                return true;
             }
             else{
                 System.out.println("** Invalid command. Please look up the help page **");
+                return false;
             }
-            return false;
         }
         return retVal;
     }
@@ -304,7 +406,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
     }
 
     protected void clearScreen(){
-        for(int i=0;i<175;i++){
+        for(int i=0;i<100;i++){
             System.out.println("");
         }
     }
