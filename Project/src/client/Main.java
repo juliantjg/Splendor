@@ -2,10 +2,14 @@ package client;
 
 import model.GameEngineCLI2Players;
 import model.GameEngineCLI3Players;
+import model.data.HelpPage;
 
 import java.util.Scanner;
 
 public class Main {
+
+    private static HelpPage helpPage;
+
     public static void main(String[] args){
         clearScreen();
         printSign();
@@ -77,8 +81,9 @@ public class Main {
     }
 
     private static void printHelp(){
+        helpPage = new HelpPage();
         clearScreen();
-        System.out.println("This is how to play");
+        helpPage.printHowToPlay();
     }
 
     private static void newGame2Players(){

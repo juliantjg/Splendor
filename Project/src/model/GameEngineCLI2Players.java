@@ -1,5 +1,6 @@
 package model;
 
+import model.data.HelpPage;
 import model.interfaces.GameEngineCLI;
 
 import java.util.Scanner;
@@ -8,11 +9,13 @@ public class GameEngineCLI2Players implements GameEngineCLI {
     protected GameBoard gameBoard;
     protected Player player1;
     protected Player player2;
+    protected HelpPage helpPage;
 
     public GameEngineCLI2Players(int numOfPlayer, String playerName1, String playerName2){
         gameBoard = new GameBoard(numOfPlayer);
         player1 = new Player(1, playerName1);
         player2 = new Player(2, playerName2);
+        helpPage = new HelpPage();
     }
 
     public void playGame(){
@@ -143,7 +146,21 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         String input = inputRaw.toLowerCase();
         boolean retVal=false;
 
-        if(input.toLowerCase().equals("help")){
+        if(input.toLowerCase().equals("quit")){
+            Scanner keyboard = new Scanner(System.in);
+            String quitInput = "";
+            do{
+                System.out.print("Are you sure you want to quit? (Y/N) >");
+                quitInput = keyboard.nextLine();
+            } while(!quitInput.toLowerCase().equals("n") && !quitInput.toLowerCase().equals("y"));
+            if(quitInput.equals("y")){
+                System.exit(0);
+            }
+            else{
+                retVal=false;
+            }
+        }
+        else if(input.toLowerCase().equals("help")){
             retVal = true;
         }
         else if(input.contains(" ")){
@@ -417,7 +434,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
 
     protected void drawHelp(){
         clearScreen();
-        System.out.println("This is help");
+        helpPage.printHelp();
     }
 
     protected void printPrivateBoard(int playerNo){
