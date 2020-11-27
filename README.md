@@ -18,7 +18,7 @@ Note: I wrote this command line interface version of the original board game Spl
 #### Double click on Splendor.bat
 ![](https://i.imgur.com/KFzSw0F.png)
 
-### Important: Do not click on the game when it is loading
+### Important: Do not click on the game when it is loading (Will cause the thread to hang)
 #### Set the window to fullscreen
 ![](https://i.imgur.com/oy58BIg.png)
 ***
