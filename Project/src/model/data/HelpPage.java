@@ -120,6 +120,7 @@ public class HelpPage {
                 "\n     >reserve b1" +
                 "\n     >reserve c1" +
                 "\n   Similar to buy, card no is provided under each development" +
+                "\n" +
                 "\n4. pay" +
                 "\n   The pay command lets player pay for the reserves they own" +
                 "\n   COMMAND:" +
@@ -128,6 +129,7 @@ public class HelpPage {
                 "\n     >pay 3" +
                 "\n   The reserve no is provided in your player deck. Can be seen as: " +
                 "\n        Res 1 (...) <-- the No. for this card will be 1" +
+                "\n" +
                 "\n5. quit" +
                 "\n   If you are bored and you want to quit" +
                 "\n" +
