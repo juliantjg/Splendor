@@ -31,6 +31,7 @@ public class GameEngineCLI3Players extends GameEngineCLI2Players {
         Scanner keyboard = new Scanner(System.in);
         while(!checkEndGame()){
             for(int playerNo=1;playerNo<4;playerNo++){
+                checkNobleVisit(playerNo);
                 int opponentNo1;
                 int opponentNo2;
                 if(playerNo==1){

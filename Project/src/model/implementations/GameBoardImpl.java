@@ -18,7 +18,7 @@ public class GameBoardImpl implements GameBoard {
     private CardImpl[] dot3, dot2, dot1;
     private FillCardsNobles datas;
     private int[] boardGems;
-    private NobleImpl[] nobles;
+    private ArrayList<NobleImpl> nobles;
     private int gold;
     private int numOfPlayers;
     private int numOfNobles;
@@ -31,11 +31,11 @@ public class GameBoardImpl implements GameBoard {
 
         if(numOfPlayers==2){
             boardGems = new int[]{4,4,4,4,4};
-            nobles = new NobleImpl[3];
+            nobles = new ArrayList<NobleImpl>();
         }
         else{
             boardGems = new int[]{5,5,5,5,5};
-            nobles = new NobleImpl[4];
+            nobles = new ArrayList<NobleImpl>();
         }
         fillNobles(numOfPlayers);
         gold=5;
@@ -50,7 +50,6 @@ public class GameBoardImpl implements GameBoard {
         refillDot("b");
         refillDot("c");
     }
-
 
     public int getGold(){
         return gold;
@@ -78,6 +77,10 @@ public class GameBoardImpl implements GameBoard {
         refillDot(code);
 
         return retVal;
+    }
+
+    public ArrayList<NobleImpl> getNobles(){
+        return nobles;
     }
 
     public void receiveGemPayment(int[] input, boolean gold){
@@ -336,16 +339,16 @@ public class GameBoardImpl implements GameBoard {
      */
     private void printNobles() {
         System.out.println("Nobles");
-        if(numOfNobles>0) {
+        if(nobles.size()>0) {
             printNobleLines();
 
-            for (int i = 0; i < numOfNobles; i++) {
-                System.out.format("%-25s", "| Prestige: " + nobles[i].getPrestige());
+            for (int i = 0; i < nobles.size(); i++) {
+                System.out.format("%-25s", "| Prestige: " + nobles.get(i).getPrestige());
             }
             System.out.print("|");
             System.out.println();
-            for (int i = 0; i < numOfNobles; i++) {
-                System.out.format("%-25s", "| Price: " + nobles[i].priceString());
+            for (int i = 0; i < nobles.size(); i++) {
+                System.out.format("%-25s", "| Price: " + nobles.get(i).priceString());
             }
             System.out.print("|");
             System.out.println();
@@ -362,7 +365,7 @@ public class GameBoardImpl implements GameBoard {
      */
     private void printNobleLines(){
         System.out.print("+");
-        for(int j=0;j<numOfNobles;j++) {
+        for(int j=0;j<nobles.size();j++) {
             for (int i = 0; i < 24; i++) {
                 System.out.print("-");
             }
@@ -409,24 +412,28 @@ public class GameBoardImpl implements GameBoard {
     /**
      * Fill the face up nobles in the beginning of the game (Nobles don't get
      * replenished)
-     * @param numPlayers. 2 players means 3 nobles being shown, 3 players 4 nobles
+     * parameter: numPlayers. 2 players means 3 nobles being shown, 3 players 4 nobles
      */
     private void fillNobles(int numPlayers){
         Random rand = new Random();
         if(numPlayers==2){
             for(int i=0;i<3;i++){
                 int randomIndex = rand.nextInt(noblesDeck.size());
-                nobles[i] = noblesDeck.get(randomIndex);
+                NobleImpl targetNoble = noblesDeck.get(randomIndex);
                 noblesDeck.remove(randomIndex);
                 String newNo = "n" + i;
-                nobles[i].setNo(newNo);
+                targetNoble.setNo(newNo);
+                nobles.add(targetNoble);
             }
         }
         else{
             for(int i=0;i<4;i++){
                 int randomIndex = rand.nextInt(noblesDeck.size());
-                nobles[i] = noblesDeck.get(randomIndex);
+                NobleImpl targetNoble = noblesDeck.get(randomIndex);
                 noblesDeck.remove(randomIndex);
+                String newNo = "n" + i;
+                targetNoble.setNo(newNo);
+                nobles.add(targetNoble);
             }
         }
     }

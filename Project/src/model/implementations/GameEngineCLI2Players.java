@@ -9,6 +9,7 @@ package model.implementations;
 import model.data.HelpPage;
 import model.interfaces.GameEngineCLI;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameEngineCLI2Players implements GameEngineCLI {
@@ -29,6 +30,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         while(!checkEndGame()){
             //Loops though 1 to 2
             for(int playerNo=1;playerNo<3;playerNo++){
+                checkNobleVisit(playerNo);
                 int opponentNo;
                 if(playerNo==1){
                     opponentNo=2;
@@ -107,6 +109,27 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         }
 
         printWinner(winner);
+    }
+
+    /**
+     * Checks if a player is eligible for noble visit. If true then takes the noble card
+     * from GameBoard and adds it to the player's PlayerDeck
+     * @param playerNumber
+     */
+    protected void checkNobleVisit(int playerNumber){
+        PlayerDeckImpl targetPlayerDeck = getPlayer(playerNumber).getPlayerDeck();
+        ArrayList<NobleImpl> noblesDeck = gameBoard.getNobles();
+
+        int flag=0;
+        for(int i=0;i<noblesDeck.size();i++){
+            if(flag==0){
+                if(targetPlayerDeck.checkNoble(noblesDeck.get(i))){
+                    targetPlayerDeck.addNoble(noblesDeck.get(i));
+                    noblesDeck.remove(i);
+                    flag=1;
+                }
+            }
+        }
     }
 
     /**
