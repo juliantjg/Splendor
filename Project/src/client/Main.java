@@ -1,7 +1,13 @@
+/**
+ * Main class: This is the main class
+ * Class: Main.java
+ * Author: Julian Tjiong (2020)
+ */
+
 package client;
 
-import model.GameEngineCLI2Players;
-import model.GameEngineCLI3Players;
+import model.implementations.GameEngineCLI2Players;
+import model.implementations.GameEngineCLI3Players;
 import model.data.HelpPage;
 
 import java.util.Scanner;
@@ -10,6 +16,10 @@ public class Main {
 
     private static HelpPage helpPage;
 
+    /**
+     * The main method that runs loading and main menu
+     * @param args
+     */
     public static void main(String[] args){
         clearScreen();
         printSign();
@@ -20,6 +30,9 @@ public class Main {
         mainMenu();
     }
 
+    /**
+     * Prints main menu and process user inputs
+     */
     private static void mainMenu(){
         clearScreen();
         Scanner keyboard = new Scanner(System.in);
@@ -53,12 +66,15 @@ public class Main {
                 System.exit(0);
             }
             else{
-                System.out.println("Input invalid, please try again (Choose from above 1/2/3)");
+                System.out.println("Input invalid, please try again (Choose from above 1/2/3/4 and don't end with an extra space)");
                 inputCheck=-1;
             }
         }
     }
 
+    /**
+     * Starts a 3 players game
+     */
     private static void newGame3Players(){
         Scanner keyboard = new Scanner(System.in);
 
@@ -80,12 +96,18 @@ public class Main {
         playAgain();
     }
 
+    /**
+     * Prints help for how to play (complete how-to-play)
+     */
     private static void printHelp(){
         helpPage = new HelpPage();
         clearScreen();
         helpPage.printHowToPlay();
     }
 
+    /**
+     * Starts a 2 players game
+     */
     private static void newGame2Players(){
         Scanner keyboard = new Scanner(System.in);
 
@@ -104,6 +126,9 @@ public class Main {
         playAgain();
     }
 
+    /**
+     * Asks player if they want to play again, if yes then main menu
+     */
     private static void playAgain(){
         Scanner keyboard = new Scanner(System.in);
         String backInput = "";
@@ -125,6 +150,9 @@ public class Main {
         } while(!flag);
     }
 
+    /**
+     * Prints second loading
+     */
     private static void printLoading2(){
         System.out.println("\n Game starting in:");
         sleep(400);
@@ -138,16 +166,22 @@ public class Main {
         sleep(500);
     }
 
+    /**
+     * Prints menu in main menu
+     */
     private static void menu(){
         System.out.println("WELCOME TO SPLENDOR!" +
                 "\nPlease set the window to fullscreen for better gameplay." +
                 "\n 1. New Game (2 Players)" +
                 "\n 2. New Game (3 Players)" +
-                "\n 3. How to play" +
+                "\n 3. How to play (check this out if you are new)" +
                 "\n 4. Quit"
         );
     }
 
+    /**
+     * Prints the first loading
+     */
     private static void printLoading(){
         for(int i=0;i<40;i++){
             sleep(37);
@@ -163,6 +197,9 @@ public class Main {
         }
     }
 
+    /**
+     * SPLENDOR sign
+     */
     private static void printSign(){
         System.out.println("" +
                 "  _____ _____  _      ______ _   _ _____   ____  _____  \n" +
@@ -173,12 +210,19 @@ public class Main {
                 "|_____/|_|    |______|______|_| \\_|_____/ \\____/|_|  \\_\\");
     }
 
+    /**
+     * Prints empty lines that creates illusion of screen clearing
+     */
     private static void clearScreen(){
         for(int i=0;i<100;i++){
             System.out.println("");
         }
     }
 
+    /**
+     * Method for thread.sleep
+     * @param time
+     */
     private static void sleep(int time){
         try
         {

@@ -1,17 +1,17 @@
 package tests;
 
-import model.GameBoard;
+import model.implementations.GameBoardImpl;
 
 public class TestGameBoard {
-    private static GameBoard gameBoard;
+    private static GameBoardImpl gameBoard;
 
     private static void testPrintFormat(){
-        gameBoard = new GameBoard(2);
+        gameBoard = new GameBoardImpl(2);
         gameBoard.printGameBoard();
     }
 
     private static void testTakeDevelopment(){
-        gameBoard = new GameBoard(2);
+        gameBoard = new GameBoardImpl(2);
         gameBoard.printGameBoard();
         String input = "a2";
         if(gameBoard.checkDevelopment(input)){
@@ -25,7 +25,7 @@ public class TestGameBoard {
     }
 
     private static void testTakeGems(){
-        gameBoard = new GameBoard(2);
+        gameBoard = new GameBoardImpl(2);
 
         //Input format/validity tests:
         //Test take 2 same gems
@@ -68,7 +68,7 @@ public class TestGameBoard {
     }
 
     private static void testReceiveGemPayment(){
-        gameBoard = new GameBoard(2);
+        gameBoard = new GameBoardImpl(2);
 
         gameBoard.printGameBoard();
         gameBoard.takeDevelopment("a2");

@@ -1,31 +1,31 @@
 package tests;
 
-import model.Card;
-import model.Noble;
-import model.Player;
-import model.PlayerDeck;
+import model.implementations.CardImpl;
+import model.implementations.NobleImpl;
+import model.implementations.PlayerImpl;
+import model.implementations.PlayerDeckImpl;
 
 import java.util.Scanner;
 
 public class TestPlayerDeck {
-    private static Player player1;
-    private static PlayerDeck playerDeck1;
+    private static PlayerImpl player1;
+    private static PlayerDeckImpl playerDeck1;
 
     /*
     testFormat(): To test print public and private player decks with 1 noble and development each
      */
     private static void testFormat(){
         //Initialize player and playerDeck
-        player1 = new Player(1, "Jul");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(1, "Jul");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         //Initialize a development card
         int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(3, priceInput, 'G');
+        CardImpl inputCard = new CardImpl(3, priceInput, 'G');
 
         //Initialize a noble
         int[] priceNoble = new int[]{1,1,0,0,0};
-        Noble inputNoble = new Noble(5, priceNoble);
+        NobleImpl inputNoble = new NobleImpl(5, priceNoble);
 
         //Put development card and noble into playerDeck
         playerDeck1.addDevelopment(inputCard);
@@ -48,20 +48,20 @@ public class TestPlayerDeck {
      */
     private static void testAddingNoblesDevelopments(){
         //Initialize player and playerDeck
-        player1 = new Player(2, "Jil");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(2, "Jil");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         //Initialize 3 development cards
         int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(3, priceInput, 'G');
-        Card inputCard2 = new Card(3, priceInput, 'O');
-        Card inputCard3 = new Card(3, priceInput, 'R');
+        CardImpl inputCard = new CardImpl(3, priceInput, 'G');
+        CardImpl inputCard2 = new CardImpl(3, priceInput, 'O');
+        CardImpl inputCard3 = new CardImpl(3, priceInput, 'R');
 
         //Initialize 3 nobles
         int[] priceNoble = new int[]{1,1,0,0,0};
-        Noble inputNoble = new Noble( 2, priceNoble);
-        Noble inputNoble2 = new Noble( 1, priceNoble);
-        Noble inputNoble3 = new Noble( 3, priceNoble);
+        NobleImpl inputNoble = new NobleImpl( 2, priceNoble);
+        NobleImpl inputNoble2 = new NobleImpl( 1, priceNoble);
+        NobleImpl inputNoble3 = new NobleImpl( 3, priceNoble);
 
         //Put development card and noble into playerDeck
         playerDeck1.addDevelopment(inputCard);
@@ -84,17 +84,17 @@ public class TestPlayerDeck {
      */
     private static void testCheckNoble(){
         //Initialize player and playerDeck
-        player1 = new Player(3, "Joel");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(3, "Joel");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         //Initialize a noble
         int[] priceNoble = new int[]{1,1,0,0,0};
-        Noble inputNoble = new Noble( 2, priceNoble);
+        NobleImpl inputNoble = new NobleImpl( 2, priceNoble);
 
         //Initialize 2 developments to cause a noble visit
         int[] priceInput = new int[]{0,2,1,0,0};
-        Card inputCard = new Card(3, priceInput, 'W');
-        Card inputCard2 = new Card(3, priceInput, 'R');
+        CardImpl inputCard = new CardImpl(3, priceInput, 'W');
+        CardImpl inputCard2 = new CardImpl(3, priceInput, 'R');
 
         playerDeck1.addDevelopment(inputCard);
         playerDeck1.addDevelopment(inputCard2);
@@ -120,8 +120,8 @@ public class TestPlayerDeck {
         Scanner keyboard2 = new Scanner(System.in);
 
         //Initialize player and playerDeck
-        player1 = new Player(4, "Jane");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(4, "Jane");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         //Initialize hand gems and put into playerDeck
         int[] handGems = new int[]{0,1,1,0,1};
@@ -135,7 +135,7 @@ public class TestPlayerDeck {
 
         //Initialize new development the player's trying to buy
         int[] priceInput2 = new int[]{0,3,1,0,0};
-        Card inputCard2 = new Card(3, priceInput2, 'G');
+        CardImpl inputCard2 = new CardImpl(3, priceInput2, 'G');
 
         int retVal = playerDeck1.checkDevelopment(inputCard2);
         System.out.println(retVal);
@@ -173,8 +173,8 @@ public class TestPlayerDeck {
      */
     private static void testCheckGems(){
         //Initialize player and playerDeck
-        player1 = new Player(5, "John");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(5, "John");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         //Initialize hand gems and put into playerDeck
         playerDeck1.addHandGems(new int[]{2,2,2,2,1});
@@ -191,11 +191,11 @@ public class TestPlayerDeck {
 
     private static void testReserveDevelopment(){
         //Initialize player and playerDeck
-        player1 = new Player(6, "Juno");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(6, "Juno");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         int[] priceInput2 = new int[]{0,2,1,0,0};
-        Card inputCard2 = new Card(3, priceInput2, 'G');
+        CardImpl inputCard2 = new CardImpl(3, priceInput2, 'G');
 
         int retVal = playerDeck1.checkReserve();
         if(retVal==2){
@@ -210,13 +210,13 @@ public class TestPlayerDeck {
 
     private static void testMoreThan3Reserves(){
         //Initialize player and playerDeck
-        player1 = new Player(6, "Juno");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(6, "Juno");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         int[] priceInput2 = new int[]{0,2,1,0,0};
-        Card inputCard2 = new Card(3, priceInput2, 'G');
-        Card inputCard3 = new Card(2, priceInput2, 'W');
-        Card inputCard4 = new Card(1, priceInput2, 'R');
+        CardImpl inputCard2 = new CardImpl(3, priceInput2, 'G');
+        CardImpl inputCard3 = new CardImpl(2, priceInput2, 'W');
+        CardImpl inputCard4 = new CardImpl(1, priceInput2, 'R');
 
         playerDeck1.reserve(inputCard2,1);
         playerDeck1.reserve(inputCard3,1);
@@ -234,11 +234,11 @@ public class TestPlayerDeck {
 
     public static void testCheckBuyReserve(){
         //Initialize player and playerDeck
-        player1 = new Player(7, "Bob Dylan");
-        playerDeck1 = new PlayerDeck(player1.getName());
+        player1 = new PlayerImpl(7, "Bob Dylan");
+        playerDeck1 = new PlayerDeckImpl(player1.getName());
 
         int[] priceInput2 = new int[]{2,2,1,0,0};
-        Card inputCard2 = new Card(3, priceInput2, 'G');
+        CardImpl inputCard2 = new CardImpl(3, priceInput2, 'G');
 
         playerDeck1.reserve(inputCard2,3);
 

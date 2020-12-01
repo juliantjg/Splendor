@@ -1,11 +1,19 @@
-package model;
+/**
+ * Main class: client/Main.java
+ * Class: NobleImpl.java
+ * Author: Julian Tjiong (2020)
+ */
 
-public class Noble {
+package model.implementations;
+
+import model.interfaces.Noble;
+
+public class NobleImpl implements Noble {
     private String no;
     private int prestige;
     private int[] price;
 
-    public Noble(int prestige, int[] price){
+    public NobleImpl(int prestige, int[] price){
         this.prestige=prestige;
         this.price=price;
     }

@@ -1,4 +1,10 @@
-package model;
+/**
+ * Main class: client/Main.java
+ * Class: GameEngineCLI2Players.java
+ * Author: Julian Tjiong (2020)
+ */
+
+package model.implementations;
 
 import model.data.HelpPage;
 import model.interfaces.GameEngineCLI;
@@ -6,21 +12,22 @@ import model.interfaces.GameEngineCLI;
 import java.util.Scanner;
 
 public class GameEngineCLI2Players implements GameEngineCLI {
-    protected GameBoard gameBoard;
-    protected Player player1;
-    protected Player player2;
+    protected GameBoardImpl gameBoard;
+    protected PlayerImpl player1;
+    protected PlayerImpl player2;
     protected HelpPage helpPage;
 
     public GameEngineCLI2Players(int numOfPlayer, String playerName1, String playerName2){
-        gameBoard = new GameBoard(numOfPlayer);
-        player1 = new Player(1, playerName1);
-        player2 = new Player(2, playerName2);
+        gameBoard = new GameBoardImpl(numOfPlayer);
+        player1 = new PlayerImpl(1, playerName1);
+        player2 = new PlayerImpl(2, playerName2);
         helpPage = new HelpPage();
     }
 
     public void playGame(){
         Scanner keyboard = new Scanner(System.in);
         while(!checkEndGame()){
+            //Loops though 1 to 2
             for(int playerNo=1;playerNo<3;playerNo++){
                 int opponentNo;
                 if(playerNo==1){
@@ -30,6 +37,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 }
                 boolean flag=false;
                 do {
+                    //Prints the board and playerDecks again if help is called
                     clearScreen();
                     printOpponentDeck(opponentNo);
                     System.out.println("");
@@ -46,6 +54,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                         flag=true;
                     } while (!processInput(input ,playerNo));
 
+                    //If help is called
                     if(input.toLowerCase().equals("help")){
                         String helpInput="";
                         drawHelp();
@@ -56,6 +65,7 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                         } while(!input.equals("back"));
                         flag=false;
                     }
+                    //Flag false means flag is called
                 } while(flag==false);
             }
         }
@@ -70,8 +80,8 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                          "\n-------\n" +
                        printResults(player2));
 
-        PlayerDeck player1Deck = player1.getPlayerDeck();
-        PlayerDeck player2Deck = player2.getPlayerDeck();
+        PlayerDeckImpl player1Deck = player1.getPlayerDeck();
+        PlayerDeckImpl player2Deck = player2.getPlayerDeck();
         String winner = "";
         //If player 1 has more prestige
         if(player1Deck.getPrestige() > player2Deck.getPrestige()){
@@ -99,6 +109,10 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         printWinner(winner);
     }
 
+    /**
+     * Prints the final winner, except if it's a draw then prints draw result
+     * @param winner or draw
+     */
     protected void printWinner(String winner){
         if(!winner.equals("draw")){
             System.out.println("\nAnd the winner is ... " + winner.toUpperCase() + " !!" +
@@ -113,7 +127,12 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         System.out.println("");
     }
 
-    protected void cheatCode(String code, PlayerDeck playerDeck){
+    /**
+     * Cheat codes for testing
+     * @param code
+     * @param playerDeck
+     */
+    protected void cheatCode(String code, PlayerDeckImpl playerDeck){
         if(code.equals("cheatone")) {
             playerDeck.setPermanentGems(new int[]{1,3,1,1,2});
             playerDeck.setPrestige(3);
@@ -136,16 +155,28 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         }
     }
 
-    protected String printResults(Player player){
+    /**
+     * Prints a player's respective result
+     * @param player
+     * @return
+     */
+    protected String printResults(PlayerImpl player){
         return " Player " + player.getName().toUpperCase() + " :" +
                 "\n  Developments purchased: " + player.getPlayerDeck().getDevelopments().size() +
                 "\n  Total prestige: " + player.getPlayerDeck().getPrestige();
     }
 
+    /**
+     * The method to process user/player input. Will call smaller methods to do selected tasks/commands
+     * @param inputRaw User's raw input (will be checked here for the commands)
+     * @param playerNo the player's number
+     * @return whether or not format is correct
+     */
     protected boolean processInput(String inputRaw, int playerNo){
         String input = inputRaw.toLowerCase();
         boolean retVal=false;
 
+        //If quit is called
         if(input.toLowerCase().equals("quit")){
             Scanner keyboard = new Scanner(System.in);
             String quitInput = "";
@@ -160,9 +191,12 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 retVal=false;
             }
         }
+        //If help is called, return true to go to help in the next section, look up playGame()
         else if(input.toLowerCase().equals("help")){
             retVal = true;
         }
+        //If input contains space, meaning player is calling one of the following methods with it's inputs:
+        //Will call the selected processInput to do one of the tasks:
         else if(input.contains(" ")){
             if(input.substring(0, input.indexOf(" ")).equals("take")){
                 return processInputTake(playerNo, input);
@@ -177,27 +211,34 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 return processInputPay(playerNo, input);
             }
             else{
-                System.out.println("** Invalid command. Please look up the help page **");
+                //Error: invalid command
+                printErrorMessageTakeGems(15);
                 retVal = false;
             }
         }
+        //If no spaces is included, meaning user is calling command without an input:
         else{
             if(input.equals("take")){
-                System.out.println("** Please specify the gems **");
+                //Error: Please specify gems
+                printErrorMessageTakeGems(16);
                 return false;
             }
             else if(input.equals("buy")){
-                System.out.println("** Please specify the development you'd like to buy **");
+                //Error: Please specify development
+                printErrorMessageTakeGems(17);
                 return false;
             }
             else if(input.equals("reserve")){
-                System.out.println("** Please specify the development you'd like to reserve **");
+                //Error: Please specify development to reserve
+                printErrorMessageTakeGems(18);
                 return false;
             }
             else if(input.equals("pay")){
-                System.out.println("** Please specify the reserved you'd like to pay **");
+                //Error: Please specify target reserve
+                printErrorMessageTakeGems(19);
                 return false;
             }
+            //The cheatcodes:
             else if(input.equals("cheatone")){
                 cheatCode("cheatone", getPlayer(playerNo).getPlayerDeck());
                 return true;
@@ -219,19 +260,31 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                 return true;
             }
             else{
-                System.out.println("** Invalid command. Please look up the help page **");
+                //Error: Invalid command
+                printErrorMessageTakeGems(15);
                 return false;
             }
         }
         return retVal;
     }
 
+    /**
+     * Process input if player calls the pay (pay reserve) command. Will first call the checkBuyReserve()
+     * from PlayerDeck to check the input format, and then whether or not player has the reserve card, and
+     * finally does the player have sufficient gems to purchase it. If player needs 1 more gem and they have
+     * a gold gem then ask whether or not they would like to use the gold gem. If all criteria above are met
+     * then make the purchase.
+     * @param playerNo
+     * @param input
+     * @return whether or not purchase successful
+     */
     protected boolean processInputPay(int playerNo, String input){
         String inputSubstring = input.substring(4, input.length());
-        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
+        PlayerDeckImpl playerDeck = getPlayer(playerNo).getPlayerDeck();
 
         int retValBuyReserve = playerDeck.checkBuyReserve(inputSubstring);
         if(retValBuyReserve>-20){
+            //If card does exist
             if(retValBuyReserve>=0){
                 int[] payment = playerDeck.buyReserve(inputSubstring);
                 gameBoard.receiveGemPayment(payment, false);
@@ -256,44 +309,70 @@ public class GameEngineCLI2Players implements GameEngineCLI {
             }
         }
         else{
+            //If card does not exist
             if(retValBuyReserve==-33){
+                //Can't find reserve card
                 printErrorMessageTakeGems(14);
             }
             else{
+                //Invalid reserve number
                 printErrorMessageTakeGems(13);
             }
             return false;
         }
     }
 
+    /**
+     * Process input when user calls the reserve command (reserve a development). Will first check whether
+     * or not the development number exist, and then checks whether or not user has already reserved three
+     * cards (they can't reserve more than 3). If above criteria are met then reserve the card, and if
+     * GameBoard has more than 0 gold gems then give 1 to the player
+     * @param playerNo
+     * @param input
+     * @return whether or not reserve were successful
+     */
     protected boolean processInputReserve(int playerNo, String input){
         String inputSubstring = input.substring(8, input.length());
-        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
+        PlayerDeckImpl playerDeck = getPlayer(playerNo).getPlayerDeck();
 
         if(gameBoard.checkDevelopment(inputSubstring)){
-            Card developmentToReserve = gameBoard.getDevelopment(inputSubstring);
+            CardImpl developmentToReserve = gameBoard.getDevelopment(inputSubstring);
             if(playerDeck.checkReserve()==2){
                 playerDeck.reserve(gameBoard.takeDevelopment(inputSubstring), gameBoard.getGold());
-                gameBoard.takeGold();
+                if(gameBoard.getGold()>0){
+                    gameBoard.takeGold();
+                }
                 return true;
             }
             else{
+                //Error: Can't have more than 3 reserves
                 printErrorMessageTakeGems(11);
                 return false;
             }
         }
         else{
+            //Error: Invalid development number
             printErrorMessageTakeGems(9);
             return false;
         }
     }
 
+    /**
+     * Process input when user calls the buy (buy development) command. First checks whether or not
+     * the input is valid by calling the checkDevelopment() from GameBoard that checks through everything
+     * including input format. Next, similar to the pay command, the method checks whether or not player
+     * has sufficient amount of gems, or if they need 1 more gem to pay then ask if they'd like to use their
+     * gold gem. If all criteria are met then make the purchase.
+     * @param playerNo
+     * @param input
+     * @return whether or not buy is successful
+     */
     protected boolean processInputBuy(int playerNo, String input){
         String inputSubstring = input.substring(4, input.length());
-        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
+        PlayerDeckImpl playerDeck = getPlayer(playerNo).getPlayerDeck();
 
         if(gameBoard.checkDevelopment(inputSubstring)){
-            Card developmentToTake = gameBoard.getDevelopment(inputSubstring);
+            CardImpl developmentToTake = gameBoard.getDevelopment(inputSubstring);
             int retVal = playerDeck.checkDevelopment(developmentToTake);
             //If gems are sufficient
             if(retVal >= 0){
@@ -311,23 +390,69 @@ public class GameEngineCLI2Players implements GameEngineCLI {
                     return true;
                 }
                 else{
+                    //If player refuse to use gold gem then purchase cancelled
                     System.out.println("** Purchase cancelled **");
                     return false;
                 }
             }
             //If insufficient gems
             else{
+                //Error: Insufficient gems
                 printErrorMessageTakeGems(10);
                 return false;
             }
         }
         //If invalid development code
         else{
+            //Error: Invalid development number
             printErrorMessageTakeGems(9);
             return false;
         }
     }
 
+    /**
+     * Process input when user calls the take command (take gems). First the method calls the
+     * checkInputTakeGems() method from GameBoard to check the input format (the method will return
+     * an error number, and if the number is 200 then no error is found and ready to proceed). If no
+     * error is found (errorNo=200), then convert the raw input into a processable format using the
+     * convertRawInputToArray() method from GameBoard and checkGems() from GameBoard as well to check
+     * if the gems are sufficient. Finally checks if player is having more than 10 gems on their hand
+     * (a player can only have up to 10 hand gems at a time). If all above criteria are met then proceed
+     * on taking the gems and giving it to the player.
+     * @param playerNo
+     * @param input
+     * @return whether or not take successfully
+     */
+    protected boolean processInputTake(int playerNo, String input){
+        String inputSubstring = input.substring(5, input.length()).toUpperCase();
+        PlayerDeckImpl playerDeck = getPlayer(playerNo).getPlayerDeck();
+        int returnErrorNo = gameBoard.checkInputTakeGems(inputSubstring);
+
+        if(returnErrorNo == 200){
+            int[] rawInputArray = gameBoard.convertRawInputToArray(inputSubstring);
+            if(playerDeck.checkGems(rawInputArray)){
+                gameBoard.takeGems(rawInputArray);
+                playerDeck.addHandGems(rawInputArray);
+                return true;
+            }
+            else{
+                //Error: Can't have more than 10 gems
+                printErrorMessageTakeGems(8);
+                return false;
+            }
+        }
+        else{
+            //Different error codes can be seen on checkInputTakeGems() from GameBoard
+            printErrorMessageTakeGems(returnErrorNo);
+            return false;
+        }
+    }
+
+    /**
+     * Helper method to ask if user would like to use their gold gem. Used in both inputProcessPay()
+     * and inputProcessBuy()
+     * @return whether or not user agree on using gold gem
+     */
     protected boolean useGold(){
         Scanner scanner = new Scanner(System.in);
         boolean useGem = false;
@@ -350,29 +475,10 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         return useGem;
     }
 
-    protected boolean processInputTake(int playerNo, String input){
-        String inputSubstring = input.substring(5, input.length()).toUpperCase();
-        PlayerDeck playerDeck = getPlayer(playerNo).getPlayerDeck();
-        int returnErrorNo = gameBoard.checkInputTakeGems(inputSubstring);
-
-        if(returnErrorNo == 200){
-            int[] rawInputArray = gameBoard.convertRawInputToArray(inputSubstring);
-            if(playerDeck.checkGems(rawInputArray)){
-                gameBoard.takeGems(rawInputArray);
-                playerDeck.addHandGems(rawInputArray);
-                return true;
-            }
-            else{
-                printErrorMessageTakeGems(8);
-                return false;
-            }
-        }
-        else{
-            printErrorMessageTakeGems(returnErrorNo);
-            return false;
-        }
-    }
-
+    /**
+     * Prints error messages based on given errorNo
+     * @param errorNo
+     */
     protected void printErrorMessageTakeGems(int errorNo){
         String errorMessage="";
         if(errorNo==1){
@@ -423,35 +529,74 @@ public class GameEngineCLI2Players implements GameEngineCLI {
         else if(errorNo==14){
             errorMessage = "Can't find the reserve card. Please choose 1/2/3 from your reserves";
         }
+        else if(errorNo==15){
+            errorMessage = "Invalid command. Please look up the help page";
+        }
+        else if(errorNo==16){
+            errorMessage = "Please specify the gems";
+        }
+        else if(errorNo==17){
+            errorMessage = "Please specify the development you'd like to buy";
+        }
+        else if(errorNo==18){
+            errorMessage = "Please specify the development you'd like to reserve";
+        }
+        else if(errorNo==19){
+            errorMessage = "Please specify the reserved you'd like to pay";
+        }
         System.out.println("** " + errorMessage + " **");
     }
 
+    /**
+     * Prints empty lines to create effect of clearing screen
+     */
     protected void clearScreen(){
         for(int i=0;i<100;i++){
             System.out.println("");
         }
     }
 
+    /**
+     * Calls the printHelp() from data/HelpPage that prints the how to play part for
+     * GameEngine
+     */
     protected void drawHelp(){
         clearScreen();
         helpPage.printHelp();
     }
 
+    /**
+     * Prints player's private board
+     * @param playerNo
+     */
     protected void printPrivateBoard(int playerNo){
         getPlayer(playerNo).getPlayerDeck().printPersonalDeck();
         System.out.println("");
     }
 
+    /**
+     * Prints opponent's public board
+     * @param opponentNo
+     */
     protected void printOpponentDeck(int opponentNo){
         getPlayer(opponentNo).getPlayerDeck().printPublicDeck();
         System.out.println("");
     }
 
+    /**
+     * Checks whether or not end game is triggered (15 prestige points)
+     * @return whether or not game ends
+     */
     protected boolean checkEndGame(){
         return player1.getPlayerDeck().getPrestige()>=15 || player2.getPlayerDeck().getPrestige()>=15;
     }
 
-    protected Player getPlayer(int no){
+    /**
+     * Returns a player based on given player number
+     * @param no
+     * @return selected player object
+     */
+    protected PlayerImpl getPlayer(int no){
         if(no==1){
             return player1;
         }

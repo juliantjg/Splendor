@@ -1,6 +1,6 @@
 package tests;
 
-import model.GameEngineCLI2Players;
+import model.implementations.GameEngineCLI2Players;
 
 public class TestGameEngineCLI2Players {
     private static GameEngineCLI2Players gameEngine;

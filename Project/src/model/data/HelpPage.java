@@ -1,3 +1,9 @@
+/**
+ * Main class: client/Main.java
+ * Class: HelpPage.java
+ * Author: Julian Tjiong (2020)
+ */
+
 package model.data;
 
 public class HelpPage {
@@ -18,9 +24,9 @@ public class HelpPage {
 
     private void printOverview(){
         System.out.println("" +
-                "- Note: I wrote this command line interface version of the original board game Splendor for fun with" +
-                "\nno intention on commercial use. If you are interested, please buy the original board game published" +
-                "\nby Space Cowboys: https://www.spacecowboys.fr/splendor -" +
+                "- Hi, my name is Julian Tjiong. I wrote this command line interface version of the original board game " +
+                "\nSplendor for fun with no intention on commercial use. If you are interested, please buy the original " +
+                "\nboard game published by Space Cowboys: https://www.spacecowboys.fr/splendor - " +
                 "\n-------------------------------------------------------------------------------------------------------" +
                 "\nSplendor is a card development board game published by Space cowboys, where player would acquire/" +
                 "\ncollect gems and use them to purchase gem mines (development card) that will provide the player with" +

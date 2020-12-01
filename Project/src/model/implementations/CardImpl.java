@@ -1,12 +1,20 @@
-package model;
+/**
+ * Main class: client/Main.java
+ * Class: CardImpl.java
+ * Author: Julian Tjiong (2020)
+ */
 
-public class Card {
+package model.implementations;
+
+import model.interfaces.Card;
+
+public class CardImpl implements Card {
     private String cardNo;
     private int prestige;
     private int[] price;
     private char gemType;
 
-    public Card(int prestige, int[] price, char gemType){
+    public CardImpl(int prestige, int[] price, char gemType){
         this.prestige=prestige;
         this.price=price;
         this.gemType=gemType;

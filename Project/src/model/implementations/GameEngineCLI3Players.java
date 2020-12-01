@@ -1,15 +1,31 @@
-package model;
+/**
+ * Main class: client/Main.java
+ * Class: GameEngineCLI3Players.java
+ * Author: Julian Tjiong (2020)
+ */
+
+package model.implementations;
 
 import java.util.Scanner;
 
-public class GameEngineCLI3Players extends GameEngineCLI2Players{
-    private Player player3;
+public class GameEngineCLI3Players extends GameEngineCLI2Players {
+    private PlayerImpl player3;
 
+    /**
+     * Adds a new player 3 to the game
+     * @param numOfPlayer
+     * @param playerName1
+     * @param playerName2
+     * @param playerName3
+     */
     public GameEngineCLI3Players(int numOfPlayer, String playerName1, String playerName2, String playerName3){
         super(numOfPlayer, playerName1, playerName2);
-        player3 = new Player(3, playerName3);
+        player3 = new PlayerImpl(3, playerName3);
     }
 
+    /**
+     * This is the 3 player version of the previous 2 players playGame()
+     */
     @Override
     public void playGame(){
         Scanner keyboard = new Scanner(System.in);
@@ -139,8 +155,13 @@ public class GameEngineCLI3Players extends GameEngineCLI2Players{
         printWinner(winner);
     }
 
+    /**
+     * Returns player for 3 players mode
+     * @param no
+     * @return a selected player object
+     */
     @Override
-    protected Player getPlayer(int no){
+    protected PlayerImpl getPlayer(int no){
         if(no==1){
             return player1;
         }

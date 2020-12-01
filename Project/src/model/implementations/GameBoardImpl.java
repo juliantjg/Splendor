@@ -1,22 +1,29 @@
-package model;
+/**
+ * Main class: client/Main.java
+ * Class: GameBoardImpl.java
+ * Author: Julian Tjiong (2020)
+ */
+
+package model.implementations;
 
 import model.data.FillCardsNobles;
+import model.interfaces.GameBoard;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameBoard {
-    private ArrayList<Card> dot3_developments, dot2_developments, dot1_developments;
-    private ArrayList<Noble> noblesDeck;
-    private Card[] dot3, dot2, dot1;
+public class GameBoardImpl implements GameBoard {
+    private ArrayList<CardImpl> dot3_developments, dot2_developments, dot1_developments;
+    private ArrayList<NobleImpl> noblesDeck;
+    private CardImpl[] dot3, dot2, dot1;
     private FillCardsNobles datas;
     private int[] boardGems;
-    private Noble[] nobles;
+    private NobleImpl[] nobles;
     private int gold;
     private int numOfPlayers;
     private int numOfNobles;
 
-    public GameBoard(int numOfPlayers){
+    public GameBoardImpl(int numOfPlayers){
         this.numOfNobles = numOfPlayers+1;
         this.numOfPlayers = numOfPlayers;
         datas = new FillCardsNobles();
@@ -24,52 +31,49 @@ public class GameBoard {
 
         if(numOfPlayers==2){
             boardGems = new int[]{4,4,4,4,4};
-            nobles = new Noble[3];
+            nobles = new NobleImpl[3];
         }
         else{
             boardGems = new int[]{5,5,5,5,5};
-            nobles = new Noble[4];
+            nobles = new NobleImpl[4];
         }
         fillNobles(numOfPlayers);
         gold=5;
         dot3_developments = datas.getDot3Cards();
         dot2_developments = datas.getDot2Cards();
         dot1_developments = datas.getDot1Cards();
-        dot3 = new Card[4];
-        dot2 = new Card[4];
-        dot1 = new Card[4];
+        dot3 = new CardImpl[4];
+        dot2 = new CardImpl[4];
+        dot1 = new CardImpl[4];
 
         refillDot("a");
         refillDot("b");
         refillDot("c");
     }
 
-    private Card[] getCardDeck(String dot){
-        if(dot.equals("a")){
-            return dot3;
-        }
-        else if(dot.equals("b")){
-            return dot2;
-        }
-        else{
-            return dot1;
-        }
+
+    public int getGold(){
+        return gold;
+    }
+
+    public void takeGold(){
+        gold--;
     }
 
     //Only return the card without taking it from the deck
-    public Card getDevelopment(String inputDevCode){
+    public CardImpl getDevelopment(String inputDevCode){
         String code = inputDevCode.substring(0,1);
         int codeNumber = Integer.parseInt(inputDevCode.substring(1,2));
-        Card retVal = getCardDeck(code)[codeNumber];
+        CardImpl retVal = getCardDeck(code)[codeNumber];
 
         return retVal;
     }
 
     //Taking the card from the deck
-    public Card takeDevelopment(String inputDevCode){
+    public CardImpl takeDevelopment(String inputDevCode){
         String code = inputDevCode.substring(0,1);
         int codeNumber = Integer.parseInt(inputDevCode.substring(1,2));
-        Card retVal = getCardDeck(code)[codeNumber];
+        CardImpl retVal = getCardDeck(code)[codeNumber];
         getCardDeck(code)[codeNumber] = null;
         refillDot(code);
 
@@ -190,66 +194,6 @@ public class GameBoard {
         }
     }
 
-    private boolean checkGemChars(String gemChar, int length){
-        if (checkCharValidity(gemChar.substring(0, 1)) && checkCharValidity(gemChar.substring(2, 3))) {
-            if (length == 5) {
-                if (checkCharValidity(gemChar.substring(4, 5))) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            else{
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    private boolean checkCharValidity(String gemChar){
-        if(gemChar.equals("W") || gemChar.equals("R") || gemChar.equals("G") || gemChar.equals("O") || gemChar.equals("B")){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    private boolean checkGems(int[] inputGems){
-        boolean availabilityCheck=true;
-        boolean retVal=false;
-        int checkIndex=-1;
-        for(int i=0;i<5;i++){
-            //Check if there are any unavailable gems
-            if((boardGems[i] - inputGems[i]) < 0){
-                availabilityCheck=false;
-            }
-            //Check if input is taking 2 same gems
-            if(inputGems[i]==2){
-                checkIndex=i;
-            }
-        }
-        if(availabilityCheck==true) {
-            //If input is taking 2 same gems
-            if (checkIndex != -1) {
-                int gemsLeft = boardGems[checkIndex] - inputGems[checkIndex];
-                if (gemsLeft < 2) {
-                    retVal = false;
-                } else {
-                    retVal = true;
-                }
-                return retVal;
-            }
-            else{
-                return true;
-            }
-        }
-        else{
-            return false;
-        }
-    }
-
     public void printGameBoard(){
         printGameBoardLines();
         System.out.println("G A M E - B O A R D");
@@ -264,6 +208,13 @@ public class GameBoard {
         printGameBoardLines();
     }
 
+    /*
+    PRIVATE (HELPER) METHODS
+     */
+
+    /**
+     * Prints the horizontal lines that divide development cards
+     */
     private void printGameBoardLines(){
         String lines="";
         for(int i=0;i<131;i++){
@@ -272,6 +223,9 @@ public class GameBoard {
         System.out.println(lines);
     }
 
+    /**
+     * Prints boardGems
+     */
     private void printGems(){
         System.out.println("Gems");
 
@@ -286,6 +240,9 @@ public class GameBoard {
         printGemLines();
     }
 
+    /**
+     * Prints horizontal lines for boardGems
+     */
     private void printGemLines(){
         System.out.print("+");
         for(int j=0;j<6;j++) {
@@ -297,6 +254,9 @@ public class GameBoard {
         System.out.println();
     }
 
+    /**
+     * Prints all the development cards
+     */
     private void printDevelopment(){
         System.out.println("Developments");
         printDevelopmentLines();
@@ -308,6 +268,10 @@ public class GameBoard {
         printDevelopmentLines();
     }
 
+    /**
+     * Prints development cards base on given card dot I/II/III
+     * @param dot
+     */
     private void printDevelopmentCards(String dot){
         String printDots="";
         if(dot.equals("a")){
@@ -349,6 +313,9 @@ public class GameBoard {
         System.out.println();
     }
 
+    /**
+     * Prints lines between development cards
+     */
     private void printDevelopmentLines(){
         System.out.print("+");
         for (int i = 0; i < 9; i++) {
@@ -364,6 +331,9 @@ public class GameBoard {
         System.out.println();
     }
 
+    /**
+     * Prints noble cards
+     */
     private void printNobles() {
         System.out.println("Nobles");
         if(numOfNobles>0) {
@@ -387,6 +357,9 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Prints lines that separate noble cards (horizontally)
+     */
     private void printNobleLines(){
         System.out.print("+");
         for(int j=0;j<numOfNobles;j++) {
@@ -398,7 +371,12 @@ public class GameBoard {
         System.out.println();
     }
 
-    private ArrayList<Card> getDevDeck(String code){
+    /**
+     * Returns a development card DECK based on given code I/II/III
+     * @param code
+     * @return the arraylist of card DECK
+     */
+    private ArrayList<CardImpl> getDevDeck(String code){
         if(code.equals("a")){
             return dot3_developments;
         }
@@ -410,6 +388,10 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Refills FACEUP development cards given the card dot
+     * @param dot
+     */
     private void refillDot(String dot){
         Random rand = new Random();
 
@@ -424,6 +406,11 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Fill the face up nobles in the beginning of the game (Nobles don't get
+     * replenished)
+     * @param numPlayers. 2 players means 3 nobles being shown, 3 players 4 nobles
+     */
     private void fillNobles(int numPlayers){
         Random rand = new Random();
         if(numPlayers==2){
@@ -444,11 +431,96 @@ public class GameBoard {
         }
     }
 
-    public int getGold(){
-        return gold;
+    /**
+     * Checks input gem's format (helper method for the larger checkInputTakeGems method
+     * @param gemChar input
+     * @param length the input's length
+     * @return whether or not the format's correct
+     */
+    private boolean checkGemChars(String gemChar, int length){
+        if (checkCharValidity(gemChar.substring(0, 1)) && checkCharValidity(gemChar.substring(2, 3))) {
+            if (length == 5) {
+                if (checkCharValidity(gemChar.substring(4, 5))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            else{
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
-    public void takeGold(){
-        gold--;
+    /**
+     * Checks the gems' validity (if gems are W/R/G/O/B), also a helper method for larger checkInputTakeGems
+     * @param gemChar
+     * @return whether or not the gems are valid
+     */
+    private boolean checkCharValidity(String gemChar){
+        if(gemChar.equals("W") || gemChar.equals("R") || gemChar.equals("G") || gemChar.equals("O") || gemChar.equals("B")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * Checks whether or not the gems exist in GameBoard / enough to take
+     * @param inputGems
+     * @return whether or not there are enough gems to take
+     */
+    private boolean checkGems(int[] inputGems){
+        boolean availabilityCheck=true;
+        boolean retVal=false;
+        int checkIndex=-1;
+        for(int i=0;i<5;i++){
+            //Check if there are any unavailable gems
+            if((boardGems[i] - inputGems[i]) < 0){
+                availabilityCheck=false;
+            }
+            //Check if input is taking 2 same gems
+            if(inputGems[i]==2){
+                checkIndex=i;
+            }
+        }
+        if(availabilityCheck==true) {
+            //If input is taking 2 same gems
+            if (checkIndex != -1) {
+                int gemsLeft = boardGems[checkIndex] - inputGems[checkIndex];
+                if (gemsLeft < 2) {
+                    retVal = false;
+                } else {
+                    retVal = true;
+                }
+                return retVal;
+            }
+            else{
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * Returns the card deck given the dot I/II/III (represented as a/b/c)
+     * @param dot
+     * @return CardImpl[] array
+     */
+    private CardImpl[] getCardDeck(String dot){
+        if(dot.equals("a")){
+            return dot3;
+        }
+        else if(dot.equals("b")){
+            return dot2;
+        }
+        else{
+            return dot1;
+        }
     }
 }
