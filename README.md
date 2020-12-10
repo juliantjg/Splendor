@@ -1,5 +1,6 @@
 # The Splendor Project
 Project Board: https://trello.com/b/5OrnmJj2/spendorgame
+Please refer to Project/ folder for the code
 
 ## Welcome
 
