@@ -1,6 +1,8 @@
 # The Splendor Project
 Project Board: https://trello.com/b/5OrnmJj2/spendorgame
 
+Please refer to Project/ folder for the code
+
 ## Welcome
 
 Note: I wrote this command line interface version of the original board game Splendor for fun with no intention on using it commercially. If you are interested, please purchase the original boardgame published by Space Cowboys: https://www.spacecowboys.fr/splendor
