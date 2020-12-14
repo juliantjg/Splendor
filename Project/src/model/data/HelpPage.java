@@ -12,7 +12,7 @@ public class HelpPage {
         printOverview();
         printHelpPart();
 
-        System.out.println("Tip: You can always look up the commands above by entering the command “help” in-game." +
+        System.out.println("Tip: You can always look up the commands above by entering the command help in-game." +
                 "\n\n--Please scroll up for more content--\n");
     }
 
