@@ -5,7 +5,7 @@ Please refer to JavaDoc/index.html for the source code documentation.
 
 ## Welcome
 
-Note: I wrote this command line interface version of the original board game Splendor for fun with no intention on using it commercially. If you are interested, please purchase the original boardgame published by Space Cowboys: https://www.spacecowboys.fr/splendor
+Note: Original boardgame published by Space Cowboys: https://www.spacecowboys.fr/splendor
 
 ## How To Install
 
