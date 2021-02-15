@@ -1,6 +1,8 @@
 # The Splendor Project
 Project Board: https://trello.com/b/5OrnmJj2/spendorgame
 
+QUICK HOW TO PLAY: https://cdn.1j1ju.com/medias/7f/91/ba-splendor-rulebook.pdf
+
 Please refer to JavaDoc/index.html for the source code documentation.
 
 ## Welcome
