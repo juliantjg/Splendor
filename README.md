@@ -1,4 +1,7 @@
 # The Splendor Project
+
+<img src="https://github.com/juliantjg/Splendor/assets/53683415/fed14301-feb9-4ccb-af1d-7d6139eafef0" width=600>
+
 Project Board: https://trello.com/b/5OrnmJj2/spendorgame
 
 QUICK HOW TO PLAY: https://cdn.1j1ju.com/medias/7f/91/ba-splendor-rulebook.pdf
